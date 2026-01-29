@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91029813580ec4e42861e597ccd06e1b, type: 3}
+  m_Name: Vehicle_NissanSkyline
+  m_EditorClassIdentifier: 
+  m_Id: skyline_gtr_r34
+  m_DisplayName: Skyline GT-R R34
+  m_Class: 2
+  m_Price: 45000
+  m_SalePrice: 0
+  m_Stats:
+    m_Speed: 88
+    m_Acceleration: 85
+    m_Handling: 90
+  m_Colors:
+  - m_Color: {r: 0.05, g: 0.05, b: 0.05, a: 1}
+  - m_Color: {r: 0, g: 0.5, b: 1, a: 1}
+  - m_Color: {r: 1, g: 1, b: 1, a: 1}
+  - m_Color: {r: 0.9, g: 0.1, b: 0.1, a: 1}
+  - m_Color: {r: 0.75, g: 0.75, b: 0.75, a: 1}
+  - m_Color: {r: 0.2, g: 1, b: 0.2, a: 1}
+  m_ModelInfo:
+    m_Prefab: {fileID: 7864011606078128903, guid: 78c9c2db9fe154015bc8c774398a1d7e,
+      type: 3}
+    m_Icon: {fileID: 21300000, guid: 10b535f21b8c24356af0962c976685ef, type: 3}
