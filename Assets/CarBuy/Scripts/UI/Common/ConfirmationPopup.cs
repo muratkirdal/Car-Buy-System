@@ -39,6 +39,7 @@ namespace CarBuy.UI
 
         private void ShowWithAction(string action, string vehicleName, int price)
         {
+            ClearButtonListeners();
             m_YesButton.onClick.AddListener(OnYesClicked);
             m_NoButton.onClick.AddListener(OnNoClicked);
             SetupMessage(action, vehicleName, price);
