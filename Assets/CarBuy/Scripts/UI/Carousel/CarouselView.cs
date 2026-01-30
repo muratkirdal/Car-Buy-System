@@ -98,6 +98,12 @@ namespace CarBuy.UI
             UpdateItemVisualStates();
         }
 
+        public void MarkItemAsNotOwned(string vehicleId)
+        {
+            m_OwnedVehicleIds.Remove(vehicleId);
+            UpdateItemVisualStates();
+        }
+
         private void WireButtonEvents()
         {
             m_LeftButton.onClick.AddListener(NavigateLeft);
