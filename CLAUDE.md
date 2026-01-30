@@ -8,65 +8,46 @@ Vehicle purchase system (NFS Underground 2 style) - 3D showcase, carousel browsi
 
 | Path | Purpose |
 |------|---------|
-| `Scripts/Core/` | ServiceLocator, GameEvents |
-| `Scripts/Data/` | ScriptableObjects (VehicleData, VehicleCatalog, PlayerShopData) |
+| `Scripts/Core/` | `GameBootstrap` - entry point |
+| `Scripts/Data/` | ScriptableObjects (VehicleData, VehicleLibrary, ShopSettings) |
 | `Scripts/Services/` | Business logic (VehicleService, CurrencyService, TransactionService) |
-| `Scripts/UI/` | Views + ShopController (MVP presenter) |
-| `Scripts/Vehicle/` | 3D display (VehicleShowcase, VehicleDisplayInstance) |
-| `Tests/Editor/` | EditMode tests |
-| `Tests/Runtime/` | PlayMode tests |
-| `Documentation/` | GDD + TDD specs |
+| `Scripts/UI/` | Views + `ShopController` (MVP presenter) |
+| `Scripts/Vehicle/` | 3D display (`VehicleShowcase`, `VehicleDisplayInstance`) |
 
-## Assemblies
-
-| Assembly | References |
-|----------|------------|
-| `CarBuy` | TextMeshPro, URP Runtime, Input System |
-| `CarBuy.Tests` | CarBuy, TestRunner, NUnit |
+All paths relative to `Assets/CarBuy/`.
 
 ## Key Systems
 
 | System | Entry Point | Notes |
 |--------|-------------|-------|
-| Service Locator | `ServiceLocator.Register<T>/Get<T>` | Clear in test teardown |
-| Vehicle Catalog | `VehicleCatalog.asset` | Single source of truth |
-| Transaction | `ITransactionService` | Returns `TransactionResult` enum |
+| Transaction | `ITransactionService.PurchaseVehicle()` | Returns `TransactionResult` enum |
 | 3D Display | `VehicleShowcase` | Uses `MaterialPropertyBlock` (no material instances) |
 | UI State | `ShopUIState` | Tracks vehicle index, color, popup state |
 
 ## Data Flow
 
-1. Input → `ShopController` → Views (CarouselView, StatsPanelView, PurchasePanelView)
-2. Purchase → `ConfirmationPopup` → `ITransactionService` → Updates all views
+1. `GameBootstrap` → `ShopController.Initialize()` → Creates services, wires events
+2. Purchase → `ConfirmationPopup` → `ITransactionService` → `PurchaseCompleted` event → Updates views
 
 ## Conventions
 
-- Private fields: `_camelCase`
-- Interfaces: `IName` prefix
-- Events: `OnEventName` prefix, null-conditional invoke
-- Serialized fields: `[SerializeField][Tooltip]`
+- Private fields: `m_CamelCase`
+- Events: null-conditional invoke (`Event?.Invoke()`)
 - Use `MaterialPropertyBlock` for color changes (avoid material instances)
+- Kill DOTween sequences/tweens in `OnDisable`
 
-## Testing
-
-```csharp
-[TearDown] public void TearDown() => ServiceLocator.Clear();  // Required
-```
-
-Mock services via interface implementations, register in `[SetUp]`.
-
-## Common Pitfalls
+## Pitfalls
 
 | Issue | Solution |
 |-------|----------|
-| Tests fail with stale services | `ServiceLocator.Clear()` in TearDown |
 | Material memory leaks | Use `MaterialPropertyBlock` |
-| "Type not found" in tests | Check `CarBuy.Tests.asmdef` references |
-| Services null | Ensure `ShopController.Initialize()` called first |
+| DOTween leaks | Kill in `OnDisable` |
+| Services null | Call `ShopController.Initialize()` first |
 
 ## Dependencies (non-standard)
 
 | Package | Use |
 |---------|-----|
+| DOTween | UI animations, vehicle transitions |
+| UniTask | Async operations |
 | `unity-mcp` | Claude Code integration |
-| `com.unity.timeline` | Animation sequences |
