@@ -12,7 +12,7 @@ namespace CarBuy.UI
 
         private ICurrencyService m_CurrencyService;
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             m_CurrencyService.BalanceChanged -= OnBalanceChanged;
         }

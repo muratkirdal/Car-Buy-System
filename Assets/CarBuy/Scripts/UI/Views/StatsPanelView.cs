@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +26,15 @@ namespace CarBuy.UI
         [SerializeField] private Transform m_ColorContainer;
 
         public event ColorSelectedHandler ColorSelected;
+
+        private void OnDisable()
+        {
+            foreach (var button in m_SpawnedColorButtons)
+            {
+                button.Clicked -= HandleColorButtonClicked;
+                Destroy(button.gameObject);
+            }
+        }
 
         public void DisplayVehicle(VehicleData vehicle)
         {
