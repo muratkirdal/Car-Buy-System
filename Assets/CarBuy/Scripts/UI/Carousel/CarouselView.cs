@@ -19,12 +19,12 @@ namespace CarBuy.UI.Carousel
 
         private List<VehicleData> m_Vehicles;
         private List<CarouselItem> m_CarouselItems;
-        private List<RectTransform> m_ItemRectTransforms;
         private HashSet<string> m_OwnedVehicleIds;
         private VehicleData m_CurrentVehicle;
-        private Sequence m_AnimationSequence;
+        private Tween m_ContainerTween;
         private int m_CurrentIndex;
         private float m_ItemWidth;
+        private float m_Spacing;
         private float m_TotalItemWidth;
 
         public event SelectedVehicleHandler VehicleSelected;
@@ -49,23 +49,21 @@ namespace CarBuy.UI.Carousel
         {
             m_Vehicles = new List<VehicleData>(vehicles);
             m_CarouselItems = new List<CarouselItem>();
-            m_ItemRectTransforms = new List<RectTransform>();
             m_OwnedVehicleIds = new HashSet<string>();
 
             foreach (var vehicle in m_Vehicles)
             {
                 CarouselItem item = SpawnCarouselItem(vehicle);
                 m_CarouselItems.Add(item);
-                m_ItemRectTransforms.Add(item.GetComponent<RectTransform>());
             }
 
             CacheLayoutValues();
 
             m_CurrentIndex = 0;
-            m_CurrentVehicle = m_Vehicles[0];
+            m_CurrentVehicle = m_Vehicles[m_CurrentIndex];
 
             UpdateItemVisualStates();
-            SnapItemsToFinalPositions(m_CurrentIndex);
+            SnapContainerToIndex(m_CurrentIndex);
         }
 
         public void SelectIndex(int index)
@@ -117,46 +115,34 @@ namespace CarBuy.UI.Carousel
 
         private void CacheLayoutValues()
         {
-            m_ItemWidth = m_ItemRectTransforms[0].sizeDelta.x;
-            float spacing = m_ItemWidth * m_Config.SpacingRatio;
-            m_TotalItemWidth = m_ItemWidth + spacing;
+            var layoutGroup = m_Container.GetComponent<HorizontalLayoutGroup>();
+            m_ItemWidth = m_CarouselItems[0].GetComponent<RectTransform>().sizeDelta.x;
+            m_Spacing = layoutGroup.spacing;
+            m_TotalItemWidth = m_ItemWidth + m_Spacing;
         }
 
-        private float CalculateItemTargetX(int itemIndex, int selectedIndex)
+        private float CalculateContainerTargetX(int selectedIndex)
         {
-            int offset = itemIndex - selectedIndex;
-            return offset * m_TotalItemWidth;
+            float centerSlotIndex = (m_Config.VisibleItems - 1) / 2f;
+            float centerSlotOffset = centerSlotIndex * m_TotalItemWidth;
+
+            return centerSlotOffset - selectedIndex * m_TotalItemWidth;
         }
 
-        private void SnapItemsToFinalPositions(int selectedIndex)
+        private void SnapContainerToIndex(int selectedIndex)
         {
-            for (int i = 0; i < m_ItemRectTransforms.Count; i++)
-            {
-                RectTransform itemRect = m_ItemRectTransforms[i];
-
-                float targetX = CalculateItemTargetX(i, selectedIndex);
-                Vector2 position = itemRect.anchoredPosition;
-                position.x = targetX;
-                itemRect.anchoredPosition = position;
-            }
+            Vector2 position = m_Container.anchoredPosition;
+            position.x = CalculateContainerTargetX(selectedIndex);
+            m_Container.anchoredPosition = position;
         }
 
         private void AnimateToIndex(int targetIndex)
         {
-            m_AnimationSequence = DOTween.Sequence();
+            float targetX = CalculateContainerTargetX(targetIndex);
+            Vector2 targetPos = new Vector2(targetX, m_Container.anchoredPosition.y);
 
-            for (int i = 0; i < m_ItemRectTransforms.Count; i++)
-            {
-                RectTransform itemRect = m_ItemRectTransforms[i];
-
-                float targetX = CalculateItemTargetX(i, targetIndex);
-                Vector2 targetPos = new Vector2(targetX, itemRect.anchoredPosition.y);
-
-                Tween tween = itemRect.DOAnchorPos(targetPos, m_Config.TransitionDuration)
-                    .SetEase(m_Config.TransitionCurve);
-
-                m_AnimationSequence.Join(tween);
-            }
+            m_ContainerTween = m_Container.DOAnchorPos(targetPos, m_Config.TransitionDuration)
+                .SetEase(m_Config.TransitionCurve);
         }
 
         private int WrapIndex(int index)
@@ -195,7 +181,7 @@ namespace CarBuy.UI.Carousel
 
         private void KillAnimation()
         {
-            m_AnimationSequence?.Kill();
+            m_ContainerTween?.Kill();
         }
 
         public delegate void SelectedVehicleHandler(int index, VehicleData vehicle);
