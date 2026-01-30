@@ -46,61 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97328fd97da754b9b885a4567cc0e893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Config: {fileID: 11400000, guid: f84da9ab2bab54495a03d95f4e2da9f9, type: 2}
   m_PlatformTransform: {fileID: 7060158355409403534}
   m_VehicleSpawnPoint: {fileID: 8097077914675579223}
-  m_RotationSpeed: 10
-  m_TransitionDuration: 0.5
-  m_FadeOutCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_FadeInCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_KeyLight: {fileID: 4184641351175610561}
-  m_FillLight: {fileID: 5149239390839948026}
-  m_RimLight: {fileID: 6627032144191357761}
 --- !u!1 &8901211787091725405
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,24 +226,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d727c16f818d4f31a44cdad1b5aea2d, type: 3}
---- !u!108 &4184641351175610561 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 1070730629911853410, guid: 2d727c16f818d4f31a44cdad1b5aea2d,
-    type: 3}
-  m_PrefabInstance: {fileID: 3803618600623610275}
-  m_PrefabAsset: {fileID: 0}
---- !u!108 &5149239390839948026 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 8339803424623942489, guid: 2d727c16f818d4f31a44cdad1b5aea2d,
-    type: 3}
-  m_PrefabInstance: {fileID: 3803618600623610275}
-  m_PrefabAsset: {fileID: 0}
---- !u!108 &6627032144191357761 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 8016082333769800418, guid: 2d727c16f818d4f31a44cdad1b5aea2d,
-    type: 3}
-  m_PrefabInstance: {fileID: 3803618600623610275}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8846339626805090459 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5624338373835538744, guid: 2d727c16f818d4f31a44cdad1b5aea2d,
