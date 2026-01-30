@@ -27,6 +27,7 @@ namespace CarBuy
         private ICurrencyService m_CurrencyService;
         private ITransactionService m_TransactionService;
         private ShopUIState m_State;
+        private VehicleData m_PendingVehicle;
 
         private void OnDisable()
         {
@@ -69,6 +70,24 @@ namespace CarBuy
             m_TransactionService.SellCompleted += HandleSellCompleted;
         }
 
+        public void OpenShop()
+        {
+            m_CarouselView.SelectIndex(0);
+
+            VehicleData firstVehicle = m_State.CurrentVehicle;
+            bool isOwned = m_VehicleService.IsVehicleOwned(firstVehicle.Id);
+
+            m_StatsView.DisplayVehicle(firstVehicle);
+            m_TradeView.DisplayVehicle(firstVehicle, isOwned);
+            m_TradeView.SetBuyEnabled(CanAffordCurrentVehicle());
+            m_VehicleShowcase.DisplayVehicle(firstVehicle, 0);
+        }
+
+        public void CloseShop()
+        {
+            m_ConfirmationPopup.ForceClose();
+        }
+
         private void HandleVehicleSelected(int index, VehicleData vehicle)
         {
             m_State.CurrentVehicle = vehicle;
@@ -100,20 +119,16 @@ namespace CarBuy
 
         private void HandleBuyRequest()
         {
-            VehicleData vehicle = m_State.CurrentVehicle;
+            m_PendingVehicle = m_State.CurrentVehicle;
 
-            m_ConfirmationPopup.Show(vehicle.DisplayName, vehicle.Price, confirmed =>
-            {
-                if (confirmed)
-                {
-                    ProcessBuy(vehicle);
-                }
-            });
+            m_ConfirmationPopup.Confirmed += HandleBuyConfirmed;
+            m_ConfirmationPopup.Show(m_PendingVehicle.DisplayName, m_PendingVehicle.Price);
         }
 
-        private void ProcessBuy(VehicleData vehicle)
+        private void HandleBuyConfirmed()
         {
-            m_TransactionService.PurchaseVehicle(vehicle.Id, m_State.SelectedColorIndex);
+            m_ConfirmationPopup.Confirmed -= HandleBuyConfirmed;
+            m_TransactionService.PurchaseVehicle(m_PendingVehicle.Id, m_State.SelectedColorIndex);
         }
 
         private void HandleBuyCompleted(VehicleTransaction transaction)
@@ -129,20 +144,16 @@ namespace CarBuy
 
         private void HandleSellRequest()
         {
-            VehicleData vehicle = m_State.CurrentVehicle;
+            m_PendingVehicle = m_State.CurrentVehicle;
 
-            m_ConfirmationPopup.ShowSell(vehicle.DisplayName, vehicle.SalePrice, confirmed =>
-            {
-                if (confirmed)
-                {
-                    ProcessSell(vehicle);
-                }
-            });
+            m_ConfirmationPopup.Confirmed += HandleSellConfirmed;
+            m_ConfirmationPopup.ShowSell(m_PendingVehicle.DisplayName, m_PendingVehicle.SalePrice);
         }
 
-        private void ProcessSell(VehicleData vehicle)
+        private void HandleSellConfirmed()
         {
-            m_TransactionService.SellVehicle(vehicle.Id);
+            m_ConfirmationPopup.Confirmed -= HandleSellConfirmed;
+            m_TransactionService.SellVehicle(m_PendingVehicle.Id);
         }
 
         private void HandleSellCompleted(VehicleTransaction transaction)
@@ -154,24 +165,6 @@ namespace CarBuy
             m_StatsView.DisplayVehicle(currentVehicle);
             m_TradeView.DisplayVehicle(currentVehicle, false);
             m_TradeView.SetBuyEnabled(CanAffordCurrentVehicle());
-        }
-
-        public void OpenShop()
-        {
-            m_CarouselView.SelectIndex(0);
-
-            VehicleData firstVehicle = m_State.CurrentVehicle;
-            bool isOwned = m_VehicleService.IsVehicleOwned(firstVehicle.Id);
-
-            m_StatsView.DisplayVehicle(firstVehicle);
-            m_TradeView.DisplayVehicle(firstVehicle, isOwned);
-            m_TradeView.SetBuyEnabled(CanAffordCurrentVehicle());
-            m_VehicleShowcase.DisplayVehicle(firstVehicle, 0);
-        }
-
-        public void CloseShop()
-        {
-            m_ConfirmationPopup.ForceClose();
         }
     }
 }

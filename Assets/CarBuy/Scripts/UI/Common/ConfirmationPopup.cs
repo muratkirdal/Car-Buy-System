@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -18,8 +17,9 @@ namespace CarBuy.UI
         [SerializeField] private Button m_YesButton;
         [SerializeField] private Button m_NoButton;
 
-        private Action<bool> m_OnComplete;
-        private Tweener m_FadeTween;
+        private Tween m_FadeTween;
+
+        public event ConfirmedHandler Confirmed;
 
         private void OnDisable()
         {
@@ -27,27 +27,21 @@ namespace CarBuy.UI
             ClearButtonListeners();
         }
 
-        private void OnDestroy()
+        public void Show(string vehicleName, int price)
         {
-            KillTween();
+            ShowWithAction("Purchase", vehicleName, price);
         }
 
-        public void Show(string vehicleName, int price, Action<bool> onComplete)
+        public void ShowSell(string vehicleName, int price)
         {
-            ShowWithAction("Purchase", vehicleName, price, onComplete);
+            ShowWithAction("Sell", vehicleName, price);
         }
 
-        public void ShowSell(string vehicleName, int price, Action<bool> onComplete)
+        private void ShowWithAction(string action, string vehicleName, int price)
         {
-            ShowWithAction("Sell", vehicleName, price, onComplete);
-        }
-
-        private void ShowWithAction(string action, string vehicleName, int price, Action<bool> onComplete)
-        {
-            m_OnComplete = onComplete;
-
+            m_YesButton.onClick.AddListener(OnYesClicked);
+            m_NoButton.onClick.AddListener(OnNoClicked);
             SetupMessage(action, vehicleName, price);
-            SetupButtonListeners();
             ShowPopup();
         }
 
@@ -56,20 +50,11 @@ namespace CarBuy.UI
             KillTween();
             ClearButtonListeners();
             SetCanvasGroupState(0f, false, false);
-            m_OnComplete?.Invoke(false);
-            m_OnComplete = null;
         }
 
         private void SetupMessage(string action, string vehicleName, int price)
         {
             m_MessageText.text = $"{action} {vehicleName} for ${price:N0}?";
-        }
-
-        private void SetupButtonListeners()
-        {
-            ClearButtonListeners();
-            m_YesButton.onClick.AddListener(OnYesClicked);
-            m_NoButton.onClick.AddListener(OnNoClicked);
         }
 
         private void ClearButtonListeners()
@@ -97,8 +82,11 @@ namespace CarBuy.UI
                 .OnComplete(() =>
                 {
                     SetCanvasGroupState(0f, false, false);
-                    m_OnComplete?.Invoke(confirmed);
-                    m_OnComplete = null;
+
+                    if (confirmed)
+                    {
+                        Confirmed?.Invoke();
+                    }
                 });
         }
 
@@ -124,4 +112,6 @@ namespace CarBuy.UI
             m_FadeTween?.Kill();
         }
     }
+
+    public delegate void ConfirmedHandler();
 }
