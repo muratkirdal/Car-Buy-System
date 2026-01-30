@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using CarBuy.Data;
 using DG.Tweening;
 
-namespace CarBuy.UI.Carousel
+namespace CarBuy.UI
 {
     public class CarouselView : MonoBehaviour
     {
@@ -208,14 +208,7 @@ namespace CarBuy.UI.Carousel
                 bool isSelected = i == m_CurrentIndex;
                 bool isOwned = m_OwnedVehicleIds.Contains(vehicleId);
 
-                ItemState state = isSelected switch
-                {
-                    true when isOwned => ItemState.SelectedOwned,
-                    true => ItemState.Selected,
-                    _ => isOwned ? ItemState.Owned : ItemState.Default
-                };
-
-                item.SetState(state);
+                item.SetState(isSelected, isOwned);
             }
         }
 

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using CarBuy.Data;
 
-namespace CarBuy.UI.Carousel
+namespace CarBuy.UI
 {
     public class CarouselItem : MonoBehaviour
     {
@@ -48,36 +48,19 @@ namespace CarBuy.UI.Carousel
             m_IconImage.sprite = vehicleData.ModelInfo.IconSprite;
             m_NameLabel.text = vehicleData.DisplayName;
 
-            SetState(ItemState.Default);
+            SetState(false, false);
         }
 
-        public void SetState(ItemState state)
+        public void SetState(bool isSelected, bool isOwned)
         {
-            m_OwnedBadge.SetActive(false);
-            m_SelectedHighlight.SetActive(false);
+            m_SelectedHighlight.SetActive(isSelected);
+            m_OwnedBadge.SetActive(isOwned);
 
-            switch (state)
-            {
-                case ItemState.Default:
-                    SetBackgroundColor(m_Config.DefaultColor);
-                    break;
+            Color backgroundColor = isSelected ? m_Config.SelectedColor :
+                                    isOwned ? m_Config.OwnedColor :
+                                    m_Config.DefaultColor;
 
-                case ItemState.Selected:
-                    SetBackgroundColor(m_Config.SelectedColor);
-                    m_SelectedHighlight.SetActive(true);
-                    break;
-
-                case ItemState.Owned:
-                    SetBackgroundColor(m_Config.OwnedColor);
-                    m_OwnedBadge.SetActive(true);
-                    break;
-
-                case ItemState.SelectedOwned:
-                    SetBackgroundColor(m_Config.SelectedColor);
-                    m_SelectedHighlight.SetActive(true);
-                    m_OwnedBadge.SetActive(true);
-                    break;
-            }
+            SetBackgroundColor(backgroundColor);
         }
 
         private void SetBackgroundColor(Color color)
