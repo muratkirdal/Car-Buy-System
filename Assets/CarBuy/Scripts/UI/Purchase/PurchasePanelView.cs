@@ -26,9 +26,7 @@ namespace CarBuy.UI.Purchase
         [SerializeField] private Button m_PurchaseButton;
         [SerializeField] private GameObject m_OwnedBadge;
 
-        private VehicleData m_CurrentVehicle;
         private bool m_CurrentIsOwned;
-        private int m_PlayerBalance;
 
         public event PurchaseClickedHandler PurchaseClicked;
 
@@ -42,27 +40,32 @@ namespace CarBuy.UI.Purchase
             m_PurchaseButton.onClick.RemoveListener(HandlePurchaseClicked);
         }
 
-        public void DisplayVehicle(VehicleData vehicle, int playerBalance, bool isOwned)
+        public void DisplayVehicle(VehicleData vehicle, bool isOwned)
         {
-            m_CurrentVehicle = vehicle;
             m_CurrentIsOwned = isOwned;
-            m_PlayerBalance = playerBalance;
 
             UpdateVehicleName(vehicle.DisplayName);
             UpdatePriceDisplay(vehicle);
             UpdateOwnedState(isOwned);
-            UpdatePurchaseButton();
+            UpdatePurchaseButtonText();
+        }
+
+        public void SetPurchaseEnabled(bool canAfford)
+        {
+            if (m_CurrentIsOwned)
+            {
+                m_PurchaseButton.interactable = false;
+                m_PriceText.color = m_Config.AffordableColor;
+                return;
+            }
+
+            m_PurchaseButton.interactable = canAfford;
+            m_PriceText.color = canAfford ? m_Config.AffordableColor : m_Config.UnaffordableColor;
         }
 
         private void UpdateVehicleName(string name)
         {
             m_VehicleNameText.text = name;
-        }
-
-        public void UpdatePlayerBalance(int balance)
-        {
-            m_PlayerBalance = balance;
-            UpdatePurchaseButton();
         }
 
         private void UpdatePriceDisplay(VehicleData vehicle)
@@ -91,25 +94,9 @@ namespace CarBuy.UI.Purchase
             m_OwnedBadge.SetActive(isOwned);
         }
 
-        private void UpdatePurchaseButton()
+        private void UpdatePurchaseButtonText()
         {
             m_PurchaseButtonText.text = m_CurrentIsOwned ? k_OwnedButtonText : k_PurchaseButtonText;
-
-            if (m_CurrentIsOwned)
-            {
-                m_PurchaseButton.interactable = false;
-                return;
-            }
-
-            int effectivePrice = m_CurrentVehicle.SalePrice > 0 ? m_CurrentVehicle.SalePrice : m_CurrentVehicle.Price;
-            bool canAfford = m_PlayerBalance >= effectivePrice;
-            SetPurchaseEnabled(canAfford);
-        }
-
-        private void SetPurchaseEnabled(bool enabled)
-        {
-            m_PurchaseButton.interactable = enabled;
-            m_PriceText.color = enabled ? m_Config.AffordableColor : m_Config.UnaffordableColor;
         }
 
         private void HandlePurchaseClicked()
@@ -117,6 +104,6 @@ namespace CarBuy.UI.Purchase
             PurchaseClicked?.Invoke();
         }
 
-        public delegate void PurchaseClickedHandler();
     }
+    public delegate void PurchaseClickedHandler();
 }

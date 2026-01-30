@@ -80,10 +80,10 @@ namespace CarBuy.UI
             m_State.CurrentVehicleIndex = index;
 
             bool isOwned = m_VehicleService.IsVehicleOwned(vehicle.Id);
-            int playerBalance = m_CurrencyService.CurrentBalance;
 
             m_StatsView.DisplayVehicle(vehicle);
-            m_PurchaseView.DisplayVehicle(vehicle, playerBalance, isOwned);
+            m_PurchaseView.DisplayVehicle(vehicle, isOwned);
+            m_PurchaseView.SetPurchaseEnabled(CanAffordCurrentVehicle());
             m_VehicleShowcase.DisplayVehicle(vehicle, m_State.SelectedColorIndex);
         }
 
@@ -95,7 +95,14 @@ namespace CarBuy.UI
 
         private void HandleBalanceChanged(int newBalance)
         {
-            m_PurchaseView.UpdatePlayerBalance(newBalance);
+            m_PurchaseView.SetPurchaseEnabled(CanAffordCurrentVehicle());
+        }
+
+        private bool CanAffordCurrentVehicle()
+        {
+            VehicleData vehicle = m_State.CurrentVehicle;
+            int effectivePrice = vehicle.SalePrice > 0 ? vehicle.SalePrice : vehicle.Price;
+            return m_CurrencyService.CurrentBalance >= effectivePrice;
         }
 
         private void HandlePurchaseRequest()
@@ -124,7 +131,8 @@ namespace CarBuy.UI
 
             if (result == TransactionResult.Success)
             {
-                m_PurchaseView.DisplayVehicle(vehicle, m_CurrencyService.CurrentBalance, true);
+                m_PurchaseView.DisplayVehicle(vehicle, true);
+                m_PurchaseView.SetPurchaseEnabled(false);
             }
 
             m_State.IsProcessingPurchase = false;
@@ -142,11 +150,10 @@ namespace CarBuy.UI
             m_CarouselView.MarkItemAsOwned(transaction.VehicleId);
 
             VehicleData currentVehicle = m_State.CurrentVehicle;
-            int playerBalance = m_CurrencyService.CurrentBalance;
 
             m_StatsView.DisplayVehicle(currentVehicle);
-
-            m_PurchaseView.DisplayVehicle(currentVehicle, playerBalance, true);
+            m_PurchaseView.DisplayVehicle(currentVehicle, true);
+            m_PurchaseView.SetPurchaseEnabled(false);
         }
 
         public void OpenShop()
@@ -154,12 +161,11 @@ namespace CarBuy.UI
             m_CarouselView.SelectIndex(0);
 
             VehicleData firstVehicle = m_State.CurrentVehicle;
-
             bool isOwned = m_VehicleService.IsVehicleOwned(firstVehicle.Id);
-            int playerBalance = m_CurrencyService.CurrentBalance;
 
             m_StatsView.DisplayVehicle(firstVehicle);
-            m_PurchaseView.DisplayVehicle(firstVehicle, playerBalance, isOwned);
+            m_PurchaseView.DisplayVehicle(firstVehicle, isOwned);
+            m_PurchaseView.SetPurchaseEnabled(CanAffordCurrentVehicle());
             m_VehicleShowcase.DisplayVehicle(firstVehicle, 0);
         }
 
