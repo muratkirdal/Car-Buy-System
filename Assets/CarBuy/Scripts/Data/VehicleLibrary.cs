@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace CarBuy.Data
@@ -13,7 +13,15 @@ namespace CarBuy.Data
 
         public VehicleData GetById(string id)
         {
-            return m_Vehicles.FirstOrDefault(v => v.Id == id);
+            foreach (VehicleData vehicle in m_Vehicles)
+            {
+                if (vehicle.Id == id)
+                {
+                    return vehicle;
+                }
+            }
+
+            throw new NullReferenceException();
         }
     }
 }
