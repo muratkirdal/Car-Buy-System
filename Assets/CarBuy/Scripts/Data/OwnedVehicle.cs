@@ -15,6 +15,7 @@ namespace CarBuy.Data
         }
 
         public string VehicleId => m_VehicleId;
+        // Use for garage system
         public int ColorIndex => m_ColorIndex;
     }
 }
