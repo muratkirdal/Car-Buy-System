@@ -12,6 +12,9 @@ namespace CarBuy.UI.Purchase
         private const string k_OwnedButtonText = "Owned";
         private const string k_StrikethroughFormat = "<s>{0}</s>";
 
+        [Header("Config")]
+        [SerializeField] private PurchasePanelConfig m_Config;
+
         [Header("Display")]
         [SerializeField] private TextMeshProUGUI m_VehicleNameText;
         [SerializeField] private TextMeshProUGUI m_PriceText;
@@ -23,9 +26,6 @@ namespace CarBuy.UI.Purchase
         [SerializeField] private TextMeshProUGUI m_PurchaseButtonText;
         [SerializeField] private Button m_PurchaseButton;
         [SerializeField] private GameObject m_OwnedBadge;
-
-        [Header("Config")]
-        [SerializeField] private PurchasePanelConfig m_Config;
 
         private VehicleData m_CurrentVehicle;
         private bool m_CurrentIsOwned;

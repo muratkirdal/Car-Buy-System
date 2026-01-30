@@ -426,7 +426,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ac1ab2991b5004c488397bfe8623d9ed, type: 3}
+  m_Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -448,7 +448,6 @@ GameObject:
   - component: {fileID: 3890273848967644632}
   - component: {fileID: 691756630599115461}
   - component: {fileID: 5799179098927781624}
-  - component: {fileID: 130275630951020937}
   - component: {fileID: 527154901096595602}
   m_Layer: 0
   m_Name: CarouselItem
@@ -563,26 +562,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &130275630951020937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8312180416165427076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 0
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: -1
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
 --- !u!114 &527154901096595602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,7 +576,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Config: {fileID: 11400000, guid: f04fc3fd5c60a4c7daf2d6ef6c1226f6, type: 2}
   m_IconImage: {fileID: 6864162656706063348}
+  m_BackgroundImage: {fileID: 9186172224925542687}
+  m_Button: {fileID: 5799179098927781624}
   m_OwnedBadge: {fileID: 8042899156985604431}
   m_SelectedHighlight: {fileID: 7694446012872165852}
-  m_BackgroundImage: {fileID: 9186172224925542687}
   m_NameLabel: {fileID: 2523569254427944516}
