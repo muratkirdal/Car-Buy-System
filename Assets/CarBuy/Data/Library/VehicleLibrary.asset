@@ -11,8 +11,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b3d364b91eaa4dafbcc22ce156e2618, type: 3}
   m_Name: VehicleLibrary
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   m_Vehicles:
   - {fileID: 11400000, guid: e5d9375e780d14361898ba7166264883, type: 2}
   - {fileID: 11400000, guid: 05c1b76b122af4eb292f4a87524d8a4a, type: 2}
   - {fileID: 11400000, guid: 0c55a230ca8914357b58fac97b3f6683, type: 2}
+  - {fileID: 11400000, guid: 3a4e1e02302d8407daa783722e10840b, type: 2}
+  - {fileID: 11400000, guid: e6955961a696c44b8b740d455284b977, type: 2}
+  - {fileID: 11400000, guid: 9ce0b77c624d647ada7ca26a5c2a8d3e, type: 2}
+  - {fileID: 11400000, guid: 2fb16b248cebb4bf1b876c9fb35f8dd0, type: 2}
