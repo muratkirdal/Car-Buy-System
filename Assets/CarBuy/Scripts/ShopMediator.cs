@@ -91,8 +91,7 @@ namespace CarBuy
         private bool CanAffordCurrentVehicle()
         {
             VehicleData vehicle = m_State.CurrentVehicle;
-            int effectivePrice = vehicle.SalePrice > 0 ? vehicle.SalePrice : vehicle.Price;
-            return m_CurrencyService.CurrentBalance >= effectivePrice;
+            return m_CurrencyService.CurrentBalance >= vehicle.Price;
         }
 
         private void HandlePurchaseRequest()
