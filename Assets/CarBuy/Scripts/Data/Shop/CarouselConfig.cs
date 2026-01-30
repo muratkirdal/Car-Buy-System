@@ -7,12 +7,10 @@ namespace CarBuy.Data
     {
         [SerializeField, Range(3, 11)] private int m_VisibleItems = 7;
         [SerializeField, Range(0.1f, 1f)] private float m_TransitionDuration = 0.3f;
-        [SerializeField, Range(0.1f, 1f)] private  float m_SpacingRatio = 0.2f;
         [SerializeField] private AnimationCurve m_TransitionCurve;
 
         public int VisibleItems => m_VisibleItems;
         public float TransitionDuration => m_TransitionDuration;
-        public float SpacingRatio => m_SpacingRatio;
         public AnimationCurve TransitionCurve => m_TransitionCurve;
     }
 }
