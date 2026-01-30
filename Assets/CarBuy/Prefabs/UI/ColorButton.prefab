@@ -173,8 +173,7 @@ MonoBehaviour:
   m_Button: {fileID: 8461753224436132807}
   m_ColorSwatch: {fileID: 4168708625808287990}
   m_SelectedIndicator: {fileID: 7127195859446599118}
-  m_SelectedScale: 1.1
-  m_NormalScale: 1
+  m_Config: {fileID: 11400000, guid: bc7e9ef3925b742298d709733283790b, type: 2}
   Clicked:
     m_PersistentCalls:
       m_Calls: []

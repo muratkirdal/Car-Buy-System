@@ -87,36 +87,7 @@ MonoBehaviour:
   m_FillImage: {fileID: 6581878351714489018}
   m_BackgroundImage: {fileID: 5561161941824662942}
   m_ValueText: {fileID: 5129270349106833743}
-  m_MinValue: 0
-  m_MaxValue: 100
-  m_AnimationDuration: 0.4
-  m_FillCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_EmptyColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-  m_LowValueColor: {r: 1, g: 1, b: 0, a: 1}
-  m_HighValueColor: {r: 0, g: 1, b: 0, a: 1}
+  m_Config: {fileID: 11400000, guid: 00a3fab04aca947bc878d13c20b44e96, type: 2}
 --- !u!1 &3696017761232526493
 GameObject:
   m_ObjectHideFlags: 0

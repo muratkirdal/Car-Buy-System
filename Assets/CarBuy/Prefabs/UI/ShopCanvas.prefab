@@ -208,13 +208,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b2b184e1c5a4349a1b1d0ee5835c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Config: {fileID: 11400000, guid: 9e08d0fe45c1e4629b504483219397ef, type: 2}
   m_Container: {fileID: 4229253359877927870}
   m_ItemPrefab: {fileID: 527154901096595602, guid: be65935d55a6a4abdafae5c0cbfa3162,
     type: 3}
   m_LeftButton: {fileID: 8472356764366409929}
   m_RightButton: {fileID: 3922489666860568825}
-  m_VisibleItems: 7
-  m_TransitionDuration: 0.3
   m_TransitionCurve:
     serializedVersion: 2
     m_Curve:
@@ -1309,6 +1308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de94342ba64af4c34ba6d54b9af16afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Config: {fileID: 11400000, guid: c03361bc41f304ad0833945c68c0527f, type: 2}
   m_VehicleNameText: {fileID: 6180568484898219098}
   m_ClassIcon: {fileID: 6151636359403060180}
   m_ClassIconLibrary: {fileID: 11400000, guid: d2abd50ed274b4118b0969d1639c4cb9, type: 2}
@@ -1597,7 +1597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_VehicleLibrary: {fileID: 11400000, guid: 783b5c16851794269805a1fa9dec8c31, type: 2}
-  m_Settings: {fileID: 11400000, guid: aab6d3b24c8894525988e1093a4348fe, type: 2}
+  m_CurrencyConfig: {fileID: 11400000, guid: aae65ab9648234e69bb809b818e4aeef, type: 2}
   m_ConfirmationPopup: {fileID: 6754796640133712758}
   m_CarouselView: {fileID: 6815924851703188743}
   m_PurchaseView: {fileID: 7645127973126480946}
@@ -2275,6 +2275,12 @@ PrefabInstance:
       propertyPath: m_BlocksRaycasts
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1377843821007994448, guid: 4c3ea071ab1114ba79a1ac12b92910fa,
+        type: 3}
+      propertyPath: m_Config
+      value: 
+      objectReference: {fileID: 11400000, guid: c03361bc41f304ad0833945c68c0527f,
+        type: 2}
     - target: {fileID: 2195172229607166496, guid: 4c3ea071ab1114ba79a1ac12b92910fa,
         type: 3}
       propertyPath: m_Name

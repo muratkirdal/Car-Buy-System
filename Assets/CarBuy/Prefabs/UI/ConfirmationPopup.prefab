@@ -185,13 +185,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6144a8ec9c314907b5dde047e37d5fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Config: {fileID: 11400000, guid: c03361bc41f304ad0833945c68c0527f, type: 2}
   m_CanvasGroup: {fileID: 185612294118569861}
   m_MessageText: {fileID: 7108488644000333013}
   m_YesButton: {fileID: 6073386376821035478}
   m_NoButton: {fileID: 3897430912799546276}
-  m_BackgroundOverlay: {fileID: 1569423743144965972}
-  m_FadeInDuration: 0.2
-  m_FadeOutDuration: 0.15
 --- !u!1 &3081681590716121622
 GameObject:
   m_ObjectHideFlags: 0

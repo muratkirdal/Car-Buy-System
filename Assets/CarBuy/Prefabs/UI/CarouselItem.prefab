@@ -671,15 +671,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 034851499036a4dce85012d45cadfb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Config: {fileID: 11400000, guid: f04fc3fd5c60a4c7daf2d6ef6c1226f6, type: 2}
   m_IconImage: {fileID: 6864162656706063348}
   m_OwnedBadge: {fileID: 8042899156985604431}
-  m_LockedBadge: {fileID: 1212752989447559323}
   m_SelectedHighlight: {fileID: 7694446012872165852}
   m_BackgroundImage: {fileID: 9186172224925542687}
   m_NameLabel: {fileID: 2523569254427944516}
-  m_DefaultColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-  m_SelectedColor: {r: 1, g: 0.8, b: 0, a: 1}
-  m_LockedColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
-  m_OwnedColor: {r: 0.2, g: 0.6, b: 0.2, a: 1}
-  m_HoverColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
-  m_TransitionDuration: 0.2
