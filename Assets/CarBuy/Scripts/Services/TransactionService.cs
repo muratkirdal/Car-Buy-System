@@ -29,7 +29,7 @@ namespace CarBuy.Services
 
             m_PlayerData.AddVehicle(new OwnedVehicle(vehicleId, colorIndex));
 
-            var transaction = new PurchaseTransaction(vehicleId, colorIndex, vehicle.Price);
+            var transaction = new PurchaseTransaction(vehicleId);
             PurchaseCompleted?.Invoke(transaction);
         }
     }
