@@ -77,10 +77,10 @@ namespace CarBuy
             VehicleData firstVehicle = m_State.CurrentVehicle;
             bool isOwned = m_VehicleService.IsVehicleOwned(firstVehicle.Id);
 
+            m_VehicleShowcase.DisplayVehicle(firstVehicle, 0);
             m_StatsView.DisplayVehicle(firstVehicle);
             m_TradeView.DisplayVehicle(firstVehicle, isOwned);
             m_TradeView.SetBuyEnabled(CanAffordCurrentVehicle());
-            m_VehicleShowcase.DisplayVehicle(firstVehicle, 0);
         }
 
         public void CloseShop()
