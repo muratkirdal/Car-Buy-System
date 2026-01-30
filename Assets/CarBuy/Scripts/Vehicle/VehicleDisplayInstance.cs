@@ -7,9 +7,9 @@ namespace CarBuy.Vehicle
     {
         private const float k_AlphaOpaque = 1.0f;
         private const float k_AlphaTransparent = 0.0f;
+        private const string k_ColorPropertyName = "_BaseColor";
 
         [SerializeField] private Renderer[] m_PaintableRenderers;
-        [SerializeField] private string m_ColorPropertyName = "_BaseColor";
 
         private MaterialPropertyBlock m_PropertyBlock;
         private Tweener m_FadeTween;
@@ -17,11 +17,6 @@ namespace CarBuy.Vehicle
         private int m_ColorPropertyId;
 
         private void OnDisable()
-        {
-            KillFadeTween();
-        }
-
-        private void OnDestroy()
         {
             KillFadeTween();
         }
@@ -58,15 +53,13 @@ namespace CarBuy.Vehicle
                 return;
             }
 
-            float startAlpha = m_CurrentColor.a;
-            m_FadeTween = DOTween.To(() => startAlpha, x => SetAlpha(x), targetAlpha, duration)
+            m_FadeTween = DOTween.To(() => m_CurrentColor.a, x => SetAlpha(x), targetAlpha, duration)
                 .SetEase(Ease.Linear);
         }
 
         private void SetAlpha(float alpha)
         {
-            Color newColor = new Color(m_CurrentColor.r, m_CurrentColor.g, m_CurrentColor.b, alpha);
-            SetColor(newColor);
+            SetColor(new Color(m_CurrentColor.r, m_CurrentColor.g, m_CurrentColor.b, alpha));
         }
 
         private void KillFadeTween()
@@ -76,11 +69,10 @@ namespace CarBuy.Vehicle
 
         private void EnsurePropertyBlockInitialized()
         {
-            if (m_PropertyBlock == null)
-            {
-                m_PropertyBlock = new MaterialPropertyBlock();
-                m_ColorPropertyId = Shader.PropertyToID(m_ColorPropertyName);
-            }
+            if (m_PropertyBlock != null) return;
+
+            m_PropertyBlock = new MaterialPropertyBlock();
+            m_ColorPropertyId = Shader.PropertyToID(k_ColorPropertyName);
         }
     }
 }

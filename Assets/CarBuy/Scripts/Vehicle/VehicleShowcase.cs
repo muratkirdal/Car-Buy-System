@@ -26,11 +26,6 @@ namespace CarBuy.Vehicle
             KillTransition();
         }
 
-        private void OnDestroy()
-        {
-            KillTransition();
-        }
-
         public void DisplayVehicle(VehicleData vehicle, int colorIndex = 0)
         {
             VehicleDisplayInstance oldVehicle = m_CurrentVehicle;
@@ -38,13 +33,14 @@ namespace CarBuy.Vehicle
 
             m_CurrentVehicle = newVehicle;
 
-            ApplyColor(newVehicle, vehicle, colorIndex);
+            int safeIndex = Mathf.Clamp(colorIndex, 0, vehicle.Colors.Length - 1);
+            newVehicle.SetColor(vehicle.Colors[safeIndex].Color);
+
             TransitionVehicles(oldVehicle, newVehicle);
         }
 
         public void SetColor(VehicleColorOption colorOption)
         {
-            if (m_CurrentVehicle == null) return;
             m_CurrentVehicle.SetColor(colorOption.Color);
         }
 
@@ -62,19 +58,12 @@ namespace CarBuy.Vehicle
             return spawnedObject;
         }
 
-        private void ApplyColor(VehicleDisplayInstance displayInstance, VehicleData vehicle, int colorIndex)
-        {
-            int safeIndex = Mathf.Clamp(colorIndex, 0, vehicle.Colors.Length - 1);
-            Color color = vehicle.Colors[safeIndex].Color;
-            displayInstance.SetColor(color);
-        }
-
         private void TransitionVehicles(VehicleDisplayInstance oldVehicle, VehicleDisplayInstance newVehicle)
         {
             KillTransition();
             m_TransitionSequence = DOTween.Sequence();
 
-            if (oldVehicle != null)
+            if (oldVehicle)
             {
                 oldVehicle.FadeOut(m_Config.TransitionDuration);
                 m_TransitionSequence.AppendCallback(() =>
