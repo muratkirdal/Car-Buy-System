@@ -7,17 +7,15 @@ namespace CarBuy.UI.Carousel
 {
     public class CarouselItem : MonoBehaviour
     {
+        [Header("Config")]
+        [SerializeField] private CarouselItemConfig m_Config;
+
         [Header("UI References")]
         [SerializeField] private Image m_IconImage;
         [SerializeField] private GameObject m_OwnedBadge;
         [SerializeField] private GameObject m_SelectedHighlight;
         [SerializeField] private Image m_BackgroundImage;
         [SerializeField] private TextMeshProUGUI m_NameLabel;
-
-        [Header("State Colors")]
-        [SerializeField] private Color m_DefaultColor = new(0.2f, 0.2f, 0.2f, 1f);
-        [SerializeField] private Color m_SelectedColor = new(1f, 0.8f, 0f, 1f);
-        [SerializeField] private Color m_OwnedColor = new(0.2f, 0.6f, 0.2f, 1f);
 
         private VehicleData m_VehicleData;
 
@@ -41,21 +39,21 @@ namespace CarBuy.UI.Carousel
             switch (state)
             {
                 case ItemState.Default:
-                    SetBackgroundColor(m_DefaultColor);
+                    SetBackgroundColor(m_Config.DefaultColor);
                     break;
 
                 case ItemState.Selected:
-                    SetBackgroundColor(m_SelectedColor);
+                    SetBackgroundColor(m_Config.SelectedColor);
                     m_SelectedHighlight.SetActive(true);
                     break;
 
                 case ItemState.Owned:
-                    SetBackgroundColor(m_OwnedColor);
+                    SetBackgroundColor(m_Config.OwnedColor);
                     m_OwnedBadge.SetActive(true);
                     break;
 
                 case ItemState.SelectedOwned:
-                    SetBackgroundColor(m_SelectedColor);
+                    SetBackgroundColor(m_Config.SelectedColor);
                     m_SelectedHighlight.SetActive(true);
                     m_OwnedBadge.SetActive(true);
                     break;

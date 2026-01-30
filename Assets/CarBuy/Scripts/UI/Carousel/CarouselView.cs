@@ -8,18 +8,14 @@ namespace CarBuy.UI.Carousel
 {
     public class CarouselView : MonoBehaviour
     {
-        private const float k_SpacingRatio = 0.2f;
+        [Header("Config")]
+        [SerializeField] private CarouselConfig m_Config;
 
         [Header("References")]
         [SerializeField] private RectTransform m_Container;
         [SerializeField] private CarouselItem m_ItemPrefab;
         [SerializeField] private Button m_LeftButton;
         [SerializeField] private Button m_RightButton;
-
-        [Header("Settings")]
-        [SerializeField] private int m_VisibleItems = 7;
-        [SerializeField] private float m_TransitionDuration = 0.3f;
-        [SerializeField] private AnimationCurve m_TransitionCurve;
 
         private List<VehicleData> m_Vehicles;
         private List<CarouselItem> m_CarouselItems;
@@ -47,12 +43,6 @@ namespace CarBuy.UI.Carousel
         private void OnDestroy()
         {
             KillAnimation();
-        }
-
-        public void ApplySettings(CarouselSettings settings)
-        {
-            m_VisibleItems = settings.VisibleItems;
-            m_TransitionDuration = settings.TransitionDuration;
         }
 
         public void Initialize(IReadOnlyList<VehicleData> vehicles)
@@ -128,7 +118,7 @@ namespace CarBuy.UI.Carousel
         private void CacheLayoutValues()
         {
             m_ItemWidth = m_ItemRectTransforms[0].sizeDelta.x;
-            float spacing = m_ItemWidth * k_SpacingRatio;
+            float spacing = m_ItemWidth * m_Config.SpacingRatio;
             m_TotalItemWidth = m_ItemWidth + spacing;
         }
 
@@ -162,8 +152,8 @@ namespace CarBuy.UI.Carousel
                 float targetX = CalculateItemTargetX(i, targetIndex);
                 Vector2 targetPos = new Vector2(targetX, itemRect.anchoredPosition.y);
 
-                Tween tween = itemRect.DOAnchorPos(targetPos, m_TransitionDuration)
-                    .SetEase(m_TransitionCurve);
+                Tween tween = itemRect.DOAnchorPos(targetPos, m_Config.TransitionDuration)
+                    .SetEase(m_Config.TransitionCurve);
 
                 m_AnimationSequence.Join(tween);
             }

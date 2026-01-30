@@ -6,28 +6,19 @@ namespace CarBuy.Vehicle
 {
     public class VehicleShowcase : MonoBehaviour
     {
+        [Header("Config")]
+        [SerializeField] private VehicleDisplayConfig m_Config;
+
         [Header("Platform")]
         [SerializeField] private Transform m_PlatformTransform;
         [SerializeField] private Transform m_VehicleSpawnPoint;
-        [SerializeField] private float m_RotationSpeed = 10f;
-
-        [Header("Transition")]
-        [SerializeField] private float m_TransitionDuration = 0.5f;
-        [SerializeField] private AnimationCurve m_FadeOutCurve;
-        [SerializeField] private AnimationCurve m_FadeInCurve;
 
         private VehicleDisplayInstance m_CurrentVehicle;
         private Sequence m_TransitionSequence;
 
-        public void ApplySettings(VehicleDisplaySettings settings)
-        {
-            m_RotationSpeed = settings.PlatformRotationSpeed;
-            m_TransitionDuration = settings.TransitionDuration;
-        }
-
         private void Update()
         {
-            m_PlatformTransform.Rotate(Vector3.up, m_RotationSpeed * Time.deltaTime);
+            m_PlatformTransform.Rotate(Vector3.up, m_Config.PlatformRotationSpeed * Time.deltaTime);
         }
 
         private void OnDisable()
@@ -85,16 +76,16 @@ namespace CarBuy.Vehicle
 
             if (oldVehicle != null)
             {
-                oldVehicle.FadeOut(m_TransitionDuration);
+                oldVehicle.FadeOut(m_Config.TransitionDuration);
                 m_TransitionSequence.AppendCallback(() =>
                 {
                     Destroy(oldVehicle.gameObject);
                 });
             }
 
-            newVehicle.FadeIn(m_TransitionDuration);
+            newVehicle.FadeIn(m_Config.TransitionDuration);
 
-            m_TransitionSequence.AppendInterval(m_TransitionDuration);
+            m_TransitionSequence.AppendInterval(m_Config.TransitionDuration);
         }
 
         private void KillTransition()

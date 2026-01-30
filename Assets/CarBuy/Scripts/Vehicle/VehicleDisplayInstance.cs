@@ -28,27 +28,11 @@ namespace CarBuy.Vehicle
             }
         }
 
-        /// <summary>
-        /// Animates the alpha channel from current value to fully opaque over the specified duration.
-        /// </summary>
-        /// <remarks>
-        /// Preserves RGB channels while only modifying alpha. If a fade is already in progress,
-        /// it will be cancelled and the new fade will start from the current alpha value.
-        /// </remarks>
-        /// <param name="duration">The duration of the fade in seconds. Zero or negative sets alpha immediately.</param>
         public void FadeIn(float duration)
         {
             Fade(k_AlphaOpaque, duration);
         }
 
-        /// <summary>
-        /// Animates the alpha channel from current value to fully transparent over the specified duration.
-        /// </summary>
-        /// <remarks>
-        /// Preserves RGB channels while only modifying alpha. If a fade is already in progress,
-        /// it will be cancelled and the new fade will start from the current alpha value.
-        /// </remarks>
-        /// <param name="duration">The duration of the fade in seconds. Zero or negative sets alpha immediately.</param>
         public void FadeOut(float duration)
         {
             Fade(k_AlphaTransparent, duration);

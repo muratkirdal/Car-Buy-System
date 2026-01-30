@@ -9,24 +9,17 @@ namespace CarBuy.UI.Common
 {
     public class ConfirmationPopup : MonoBehaviour
     {
+        [Header("Config")]
+        [SerializeField] private UIAnimationConfig m_Config;
+
         [Header("References")]
         [SerializeField] private CanvasGroup m_CanvasGroup;
         [SerializeField] private TextMeshProUGUI m_MessageText;
         [SerializeField] private Button m_YesButton;
         [SerializeField] private Button m_NoButton;
 
-        [Header("Animation")]
-        [SerializeField] private float m_FadeInDuration = 0.2f;
-        [SerializeField] private float m_FadeOutDuration = 0.15f;
-
         private Action<bool> m_OnComplete;
         private Tweener m_FadeTween;
-
-        public void ApplySettings(UIAnimationSettings settings)
-        {
-            m_FadeInDuration = settings.PopupFadeInDuration;
-            m_FadeOutDuration = settings.PopupFadeOutDuration;
-        }
 
         private void OnDisable()
         {
@@ -80,7 +73,7 @@ namespace CarBuy.UI.Common
             SetCanvasGroupState(0f, true, true);
             KillTween();
 
-            m_FadeTween = m_CanvasGroup.DOFade(1f, m_FadeInDuration)
+            m_FadeTween = m_CanvasGroup.DOFade(1f, m_Config.PopupFadeInDuration)
                 .SetEase(Ease.OutQuad);
         }
 
@@ -89,7 +82,7 @@ namespace CarBuy.UI.Common
             ClearButtonListeners();
             KillTween();
 
-            m_FadeTween = m_CanvasGroup.DOFade(0f, m_FadeOutDuration)
+            m_FadeTween = m_CanvasGroup.DOFade(0f, m_Config.PopupFadeOutDuration)
                 .SetEase(Ease.InQuad)
                 .OnComplete(() =>
                 {

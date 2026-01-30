@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using CarBuy.Data;
 
 namespace CarBuy.UI.Stats
 {
@@ -12,27 +13,12 @@ namespace CarBuy.UI.Stats
         [SerializeField] private Image m_BackgroundImage;
         [SerializeField] private TextMeshProUGUI m_ValueText;
 
-        [Header("Value Range")]
-        [SerializeField] private float m_MinValue = 0f;
-        [SerializeField] private float m_MaxValue = 100f;
-
-        [Header("Animation")]
-        [SerializeField] private float m_AnimationDuration = 0.4f;
-        [SerializeField]private AnimationCurve m_FillCurve;
-
-        [Header("Colors")]
-        [SerializeField] private Color m_EmptyColor = new(0.2f, 0.2f, 0.2f, 1f);
-        [SerializeField] private Color m_LowValueColor = new(1f, 1f, 0f, 1f);
-        [SerializeField] private Color m_HighValueColor = new(0f, 1f, 0f, 1f);
+        [Header("Configuration")]
+        [SerializeField] private StatSliderConfig m_Config;
 
         private float m_CurrentValue;
         private Tween m_FillTween;
         private Tween m_ColorTween;
-
-        public void SetAnimationDuration(float duration)
-        {
-            m_AnimationDuration = duration;
-        }
 
         private void Awake()
         {
@@ -51,7 +37,7 @@ namespace CarBuy.UI.Stats
 
         public void SetValue(float value)
         {
-            m_CurrentValue = Mathf.Clamp(value, m_MinValue, m_MaxValue);
+            m_CurrentValue = Mathf.Clamp(value, m_Config.MinValue, m_Config.MaxValue);
             float normalizedValue = CalculateNormalizedValue(m_CurrentValue);
 
             KillTweens();
@@ -60,19 +46,19 @@ namespace CarBuy.UI.Stats
 
         private float CalculateNormalizedValue(float clampedValue)
         {
-            float range = m_MaxValue - m_MinValue;
+            float range = m_Config.MaxValue - m_Config.MinValue;
 
             if (range <= 0f)
             {
                 return 0f;
             }
 
-            return (clampedValue - m_MinValue) / range;
+            return (clampedValue - m_Config.MinValue) / range;
         }
 
         private void InitializeBackground()
         {
-            m_BackgroundImage.color = m_EmptyColor;
+            m_BackgroundImage.color = m_Config.EmptyColor;
         }
 
         private void ApplyFillImmediate(float normalizedValue)
@@ -89,23 +75,23 @@ namespace CarBuy.UI.Stats
             float startFill = m_FillImage.fillAmount;
             Color targetColor = EvaluateGradient(targetNormalized);
 
-            m_FillTween = DOTween.To(() => startFill, x => m_FillImage.fillAmount = x, targetNormalized, m_AnimationDuration)
-                .SetEase(m_FillCurve)
+            m_FillTween = DOTween.To(() => startFill, x => m_FillImage.fillAmount = x, targetNormalized, m_Config.AnimationDuration)
+                .SetEase(m_Config.FillCurve)
                 .OnComplete(UpdateText);
 
-            m_ColorTween = m_FillImage.DOColor(targetColor, m_AnimationDuration)
+            m_ColorTween = m_FillImage.DOColor(targetColor, m_Config.AnimationDuration)
                 .SetEase(Ease.Linear);
         }
 
         private Color EvaluateGradient(float normalizedValue)
         {
-            return Color.Lerp(m_LowValueColor, m_HighValueColor, normalizedValue);
+            return Color.Lerp(m_Config.LowValueColor, m_Config.HighValueColor, normalizedValue);
         }
 
         private void UpdateText()
         {
             int displayValue = Mathf.RoundToInt(m_CurrentValue);
-            int displayMax = Mathf.RoundToInt(m_MaxValue);
+            int displayMax = Mathf.RoundToInt(m_Config.MaxValue);
             m_ValueText.text = $"{displayValue} / {displayMax}";
         }
 

@@ -27,12 +27,6 @@ namespace CarBuy.UI.Views
 
         public event ColorSelectedHandler ColorSelected;
 
-        public void ApplySettings(UIAnimationSettings settings)
-        {
-            m_SpeedSlider.SetAnimationDuration(settings.StatsFillDuration);
-            m_AccelerationSlider.SetAnimationDuration(settings.StatsFillDuration);
-            m_HandlingSlider.SetAnimationDuration(settings.StatsFillDuration);
-        }
 
         private void OnDestroy()
         {

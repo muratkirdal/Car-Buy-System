@@ -14,7 +14,7 @@ namespace CarBuy.UI
     {
         [Header("Data")]
         [SerializeField] private VehicleLibrary m_VehicleLibrary;
-        [SerializeField] private ShopSettings m_Settings;
+        [SerializeField] private CurrencyConfig m_CurrencyConfig;
 
         [Header("UI Views")]
         [SerializeField] private ConfirmationPopup m_ConfirmationPopup;
@@ -42,13 +42,11 @@ namespace CarBuy.UI
 
         public void Initialize()
         {
-            var playerData = new PlayerShopData(m_Settings.Currency.StartingBalance);
+            var playerData = new PlayerShopData(m_CurrencyConfig.StartingBalance);
 
             m_VehicleService = new VehicleService(m_VehicleLibrary, playerData);
             m_CurrencyService = new CurrencyService(playerData);
             m_TransactionService = new TransactionService(m_VehicleService, m_CurrencyService, playerData);
-
-            ApplySettings();
 
             m_State = new ShopUIState
             {
@@ -63,7 +61,6 @@ namespace CarBuy.UI
 
             m_State.CurrentVehicle = vehicles[0];
 
-            m_CarouselView.ApplySettings(m_Settings.Carousel);
             m_CarouselView.Initialize(vehicles);
 
             m_CarouselView.VehicleSelected += HandleVehicleSelected;
@@ -72,13 +69,6 @@ namespace CarBuy.UI
             m_CurrencyService.BalanceChanged += HandleBalanceChanged;
             m_TransactionService.PurchaseCompleted += HandlePurchaseCompleted;
             m_TransactionService.PurchaseFailed += HandleTransactionServicePurchaseFailed;
-        }
-
-        private void ApplySettings()
-        {
-            m_VehicleShowcase.ApplySettings(m_Settings.VehicleDisplay);
-            m_StatsView.ApplySettings(m_Settings.UIAnimation);
-            m_ConfirmationPopup.ApplySettings(m_Settings.UIAnimation);
         }
 
         private void HandleVehicleSelected(int index, VehicleData vehicle)

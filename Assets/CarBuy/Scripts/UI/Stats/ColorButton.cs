@@ -7,14 +7,13 @@ namespace CarBuy.UI.Stats
 {
     public class ColorButton : MonoBehaviour
     {
+        [Header("Config")]
+        [SerializeField] private ColorButtonConfig m_Config;
+
         [Header("References")]
         [SerializeField] private Button m_Button;
         [SerializeField] private Image m_ColorSwatch;
         [SerializeField] private GameObject m_SelectedIndicator;
-
-        [Header("Scale Settings")]
-        [SerializeField] private float m_SelectedScale = 1.1f;
-        [SerializeField] private float m_NormalScale = 1.0f;
 
         private RectTransform m_RectTransform;
         private Vector3 m_SelectedScaleVector;
@@ -47,8 +46,8 @@ namespace CarBuy.UI.Stats
 
         private void CacheScaleVectors()
         {
-            m_SelectedScaleVector = new Vector3(m_SelectedScale, m_SelectedScale, m_SelectedScale);
-            m_NormalScaleVector = new Vector3(m_NormalScale, m_NormalScale, m_NormalScale);
+            m_SelectedScaleVector = new Vector3(m_Config.SelectedScale, m_Config.SelectedScale, m_Config.SelectedScale);
+            m_NormalScaleVector = new Vector3(m_Config.NormalScale, m_Config.NormalScale, m_Config.NormalScale);
         }
 
         private void WireButtonClick()

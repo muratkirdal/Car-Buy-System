@@ -20,13 +20,12 @@ namespace CarBuy.UI.Purchase
         [SerializeField] private GameObject m_SaleIndicator;
 
         [Header("Buttons")]
-        [SerializeField] private Button m_PurchaseButton;
         [SerializeField] private TextMeshProUGUI m_PurchaseButtonText;
+        [SerializeField] private Button m_PurchaseButton;
         [SerializeField] private GameObject m_OwnedBadge;
 
-        [Header("Colors")]
-        [SerializeField] private Color m_AffordableColor = Color.green;
-        [SerializeField] private Color m_UnaffordableColor = Color.red;
+        [Header("Config")]
+        [SerializeField] private PurchasePanelConfig m_Config;
 
         private VehicleData m_CurrentVehicle;
         private bool m_CurrentIsOwned;
@@ -119,7 +118,7 @@ namespace CarBuy.UI.Purchase
         private void SetPurchaseEnabled(bool enabled)
         {
             m_PurchaseButton.interactable = enabled;
-            m_PriceText.color = enabled ? m_AffordableColor : m_UnaffordableColor;
+            m_PriceText.color = enabled ? m_Config.AffordableColor : m_Config.UnaffordableColor;
         }
     }
 
