@@ -34,9 +34,19 @@ namespace CarBuy.UI
 
         public void Show(string vehicleName, int price, Action<bool> onComplete)
         {
+            ShowWithAction("Purchase", vehicleName, price, onComplete);
+        }
+
+        public void ShowSell(string vehicleName, int price, Action<bool> onComplete)
+        {
+            ShowWithAction("Sell", vehicleName, price, onComplete);
+        }
+
+        private void ShowWithAction(string action, string vehicleName, int price, Action<bool> onComplete)
+        {
             m_OnComplete = onComplete;
 
-            SetupMessage(vehicleName, price);
+            SetupMessage(action, vehicleName, price);
             SetupButtonListeners();
             ShowPopup();
         }
@@ -50,9 +60,9 @@ namespace CarBuy.UI
             m_OnComplete = null;
         }
 
-        private void SetupMessage(string vehicleName, int price)
+        private void SetupMessage(string action, string vehicleName, int price)
         {
-            m_MessageText.text = $"Purchase {vehicleName} for ${price:N0}?";
+            m_MessageText.text = $"{action} {vehicleName} for ${price:N0}?";
         }
 
         private void SetupButtonListeners()
