@@ -28,10 +28,14 @@ namespace CarBuy.UI
         {
             m_RectTransform = GetComponent<RectTransform>();
             CacheScaleVectors();
-            WireButtonClick();
         }
 
-        private void OnDestroy()
+        private void OnEnable()
+        {
+            m_Button.onClick.AddListener(HandleButtonClick);
+        }
+
+        private void OnDisable()
         {
             m_Button.onClick.RemoveListener(HandleButtonClick);
         }
@@ -54,11 +58,6 @@ namespace CarBuy.UI
         {
             m_SelectedScaleVector = new Vector3(m_Config.SelectedScale, m_Config.SelectedScale, m_Config.SelectedScale);
             m_NormalScaleVector = new Vector3(m_Config.NormalScale, m_Config.NormalScale, m_Config.NormalScale);
-        }
-
-        private void WireButtonClick()
-        {
-            m_Button.onClick.AddListener(HandleButtonClick);
         }
 
         private void HandleButtonClick()
