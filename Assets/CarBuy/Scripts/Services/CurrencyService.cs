@@ -15,7 +15,7 @@ namespace CarBuy.Services
 
         public event BalanceChangedHandler BalanceChanged;
 
-        public bool CanAfford(int amount)
+        private bool CanAfford(int amount)
         {
             return m_PlayerData.Balance >= amount;
         }

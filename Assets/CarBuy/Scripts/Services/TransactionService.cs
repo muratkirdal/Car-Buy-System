@@ -24,18 +24,7 @@ namespace CarBuy.Services
         public TransactionResult PurchaseVehicle(string vehicleId, int colorIndex)
         {
             var vehicle = m_VehicleService.GetVehicle(vehicleId);
-
-            if (vehicle == null)
-            {
-                return TransactionResult.ServerError;
-            }
-
-            var transaction = new PurchaseTransaction
-            {
-                VehicleId = vehicleId,
-                ColorIndex = colorIndex,
-                Price = vehicle.Price
-            };
+            var transaction = new PurchaseTransaction(vehicleId, colorIndex, vehicle.Price);
 
             if (m_VehicleService.IsVehicleOwned(vehicleId))
             {
@@ -43,22 +32,13 @@ namespace CarBuy.Services
                 return TransactionResult.AlreadyOwned;
             }
 
-            if (!m_CurrencyService.CanAfford(vehicle.Price))
+            if (!m_CurrencyService.TryDeduct(vehicle.Price))
             {
                 PurchaseFailed?.Invoke(transaction, "Insufficient funds.");
                 return TransactionResult.InsufficientFunds;
             }
 
-            if (!m_CurrencyService.TryDeduct(vehicle.Price))
-            {
-                PurchaseFailed?.Invoke(transaction, "Failed to deduct funds.");
-                return TransactionResult.ServerError;
-            }
-
-            m_PlayerData.AddVehicle(new OwnedVehicle
-            {
-                VehicleId = vehicleId
-            });
+            m_PlayerData.AddVehicle(new OwnedVehicle(vehicleId, colorIndex));
 
             PurchaseCompleted?.Invoke(transaction);
 
