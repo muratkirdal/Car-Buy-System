@@ -7,7 +7,6 @@ namespace CarBuy.UI
 {
     public class PurchasePanelView : MonoBehaviour
     {
-        private const string k_CurrencyFormat = "${0:N0}";
         private const string k_PurchaseButtonText = "Purchase";
         private const string k_OwnedButtonText = "Owned";
         private const string k_StrikethroughFormat = "<s>{0}</s>";
@@ -73,12 +72,12 @@ namespace CarBuy.UI
             bool isOnSale = vehicle.SalePrice > 0;
             int displayPrice = isOnSale ? vehicle.SalePrice : vehicle.Price;
 
-            m_PriceText.text = string.Format(k_CurrencyFormat, displayPrice);
+            m_PriceText.text = string.Format(StringConst.CurrencyFormat, displayPrice);
             m_SaleIndicator.SetActive(isOnSale);
 
             if (isOnSale)
             {
-                string originalPrice = string.Format(k_CurrencyFormat, vehicle.Price);
+                string originalPrice = string.Format(StringConst.CurrencyFormat, vehicle.Price);
                 m_OriginalPriceText.text = string.Format(k_StrikethroughFormat, originalPrice);
                 m_OriginalPriceText.gameObject.SetActive(true);
             }

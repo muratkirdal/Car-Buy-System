@@ -6,7 +6,6 @@ namespace CarBuy.UI
 {
     public class CurrencyHudView : MonoBehaviour
     {
-        private const string k_CurrencyFormat = "${0:N0}";
 
         [Header("References")]
         [SerializeField] private TextMeshProUGUI m_BalanceText;
@@ -33,7 +32,7 @@ namespace CarBuy.UI
 
         private void SetBalance(int balance)
         {
-            m_BalanceText.text = string.Format(k_CurrencyFormat, balance);
+            m_BalanceText.text = string.Format(StringConst.CurrencyFormat, balance);
         }
 
         private void UnsubscribeFromService()
