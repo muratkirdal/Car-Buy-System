@@ -39,7 +39,6 @@ namespace CarBuy.UI
             m_PurchaseView.PurchaseClicked -= HandlePurchaseRequest;
             m_CurrencyService.BalanceChanged -= HandleBalanceChanged;
             m_TransactionService.PurchaseCompleted -= HandlePurchaseCompleted;
-            m_TransactionService.PurchaseFailed -= HandleTransactionServicePurchaseFailed;
         }
 
         public void Initialize()
@@ -54,8 +53,6 @@ namespace CarBuy.UI
             {
                 CurrentVehicleIndex = 0,
                 SelectedColorIndex = 0,
-                IsPopupOpen = false,
-                IsProcessingPurchase = false,
                 CurrentVehicle = null
             };
 
@@ -71,7 +68,6 @@ namespace CarBuy.UI
             m_PurchaseView.PurchaseClicked += HandlePurchaseRequest;
             m_CurrencyService.BalanceChanged += HandleBalanceChanged;
             m_TransactionService.PurchaseCompleted += HandlePurchaseCompleted;
-            m_TransactionService.PurchaseFailed += HandleTransactionServicePurchaseFailed;
         }
 
         private void HandleVehicleSelected(int index, VehicleData vehicle)
@@ -108,41 +104,19 @@ namespace CarBuy.UI
         private void HandlePurchaseRequest()
         {
             VehicleData vehicle = m_State.CurrentVehicle;
-            m_State.IsPopupOpen = true;
 
             m_ConfirmationPopup.Show(vehicle.DisplayName, vehicle.Price, confirmed =>
             {
-                m_State.IsPopupOpen = false;
-
-                if (!confirmed)
+                if (confirmed)
                 {
-                    return;
+                    ProcessPurchase(vehicle);
                 }
-
-                ProcessPurchase(vehicle);
             });
         }
 
         private void ProcessPurchase(VehicleData vehicle)
         {
-            m_State.IsProcessingPurchase = true;
-
-            TransactionResult result = m_TransactionService.PurchaseVehicle(vehicle.Id, m_State.SelectedColorIndex);
-
-            if (result == TransactionResult.Success)
-            {
-                m_PurchaseView.DisplayVehicle(vehicle, true);
-                m_PurchaseView.SetPurchaseEnabled(false);
-            }
-
-            m_State.IsProcessingPurchase = false;
-        }
-
-        private void HandleTransactionServicePurchaseFailed(PurchaseTransaction transaction, string errorMessage)
-        {
-            Debug.LogError($"[ShopController] Purchase failed for vehicle '{transaction.VehicleId}': {errorMessage}");
-
-            m_State.IsProcessingPurchase = false;
+            m_TransactionService.PurchaseVehicle(vehicle.Id, m_State.SelectedColorIndex);
         }
 
         private void HandlePurchaseCompleted(PurchaseTransaction transaction)
@@ -171,10 +145,7 @@ namespace CarBuy.UI
 
         public void CloseShop()
         {
-            if (m_State.IsPopupOpen)
-            {
-                m_ConfirmationPopup.ForceClose();
-            }
+            m_ConfirmationPopup.ForceClose();
         }
     }
 }
