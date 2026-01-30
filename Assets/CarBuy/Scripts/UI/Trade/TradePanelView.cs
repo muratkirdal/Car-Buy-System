@@ -56,9 +56,9 @@ namespace CarBuy.UI
             m_PriceText.color = canAfford ? m_Config.AffordableColor : m_Config.UnaffordableColor;
         }
 
-        private void UpdateVehicleName(string name)
+        private void UpdateVehicleName(string vehicleName)
         {
-            m_VehicleNameText.text = name;
+            m_VehicleNameText.text = vehicleName;
         }
 
         private void UpdatePriceDisplay(VehicleData vehicle, bool isOwned)
@@ -71,11 +71,10 @@ namespace CarBuy.UI
         {
             m_ActionButtonText.text = m_CurrentIsOwned ? k_SellButtonText : k_BuyButtonText;
 
-            if (m_CurrentIsOwned)
-            {
-                m_ActionButton.interactable = true;
-                m_PriceText.color = m_Config.SellColor;
-            }
+            if (!m_CurrentIsOwned) return;
+
+            m_ActionButton.interactable = true;
+            m_PriceText.color = m_Config.SellColor;
         }
 
         private void HandleActionClicked()

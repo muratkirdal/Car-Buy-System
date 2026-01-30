@@ -26,11 +26,6 @@ namespace CarBuy.UI
 
         public event ColorSelectedHandler ColorSelected;
 
-        private void OnDestroy()
-        {
-            ClearColorButtons();
-        }
-
         public void DisplayVehicle(VehicleData vehicle)
         {
             m_VehicleNameText.text = vehicle.DisplayName;
@@ -39,8 +34,20 @@ namespace CarBuy.UI
             m_AccelerationSlider.SetValue(vehicle.Stats.Acceleration);
             m_HandlingSlider.SetValue(vehicle.Stats.Handling);
 
-            ClearColorButtons();
-            SpawnColorButtons(vehicle.Colors);
+            foreach (var button in m_SpawnedColorButtons)
+            {
+                button.Clicked -= HandleColorButtonClicked;
+                Destroy(button.gameObject);
+            }
+            m_SpawnedColorButtons.Clear();
+
+            for (int i = 0; i < vehicle.Colors.Length; i++)
+            {
+                ColorButton button = Instantiate(m_ColorButtonPrefab, m_ColorContainer);
+                button.Initialize(i, vehicle.Colors[i]);
+                button.Clicked += HandleColorButtonClicked;
+                m_SpawnedColorButtons.Add(button);
+            }
 
             SelectColor(0);
         }
@@ -54,28 +61,6 @@ namespace CarBuy.UI
 
             ColorButton selectedButton = m_SpawnedColorButtons[colorIndex];
             ColorSelected?.Invoke(colorIndex, selectedButton.ColorOption);
-        }
-
-        private void ClearColorButtons()
-        {
-            foreach (var button in m_SpawnedColorButtons)
-            {
-                button.Clicked -= HandleColorButtonClicked;
-                Destroy(button.gameObject);
-            }
-
-            m_SpawnedColorButtons.Clear();
-        }
-
-        private void SpawnColorButtons(VehicleColorOption[] colorOptions)
-        {
-            for (int i = 0; i < colorOptions.Length; i++)
-            {
-                ColorButton button = Instantiate(m_ColorButtonPrefab, m_ColorContainer);
-                button.Initialize(i, colorOptions[i]);
-                button.Clicked += HandleColorButtonClicked;
-                m_SpawnedColorButtons.Add(button);
-            }
         }
 
         private void HandleColorButtonClicked(int index, VehicleColorOption colorOption)

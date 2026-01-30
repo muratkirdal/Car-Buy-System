@@ -16,13 +16,12 @@ namespace CarBuy.UI
         [Header("Configuration")]
         [SerializeField] private StatSliderConfig m_Config;
 
-        private float m_CurrentValue;
         private Tween m_FillTween;
         private Tween m_ColorTween;
 
         private void Awake()
         {
-            InitializeBackground();
+            m_BackgroundImage.color = m_Config.EmptyColor;
         }
 
         private void OnDisable()
@@ -30,18 +29,13 @@ namespace CarBuy.UI
             KillTweens();
         }
 
-        private void OnDestroy()
-        {
-            KillTweens();
-        }
-
         public void SetValue(float value)
         {
-            m_CurrentValue = Mathf.Clamp(value, m_Config.MinValue, m_Config.MaxValue);
-            float normalizedValue = CalculateNormalizedValue(m_CurrentValue);
+            float clampedValue = Mathf.Clamp(value, m_Config.MinValue, m_Config.MaxValue);
+            float normalizedValue = CalculateNormalizedValue(clampedValue);
 
             KillTweens();
-            AnimateFill(normalizedValue);
+            AnimateFill(normalizedValue, clampedValue);
         }
 
         private float CalculateNormalizedValue(float clampedValue)
@@ -56,36 +50,23 @@ namespace CarBuy.UI
             return (clampedValue - m_Config.MinValue) / range;
         }
 
-        private void InitializeBackground()
+        private void AnimateFill(float targetNormalized, float targetValue)
         {
-            m_BackgroundImage.color = m_Config.EmptyColor;
-        }
+            Color targetColor = Color.Lerp(m_Config.LowValueColor, m_Config.HighValueColor, targetNormalized);
 
-        private void AnimateFill(float targetNormalized)
-        {
-            UpdateText();
-
-            float startFill = m_FillImage.fillAmount;
-            Color targetColor = EvaluateGradient(targetNormalized);
-
-            m_FillTween = DOTween.To(() => startFill, x => m_FillImage.fillAmount = x, targetNormalized, m_Config.AnimationDuration)
+            m_FillTween = DOTween.To(() => m_FillImage.fillAmount, x => m_FillImage.fillAmount = x, targetNormalized, m_Config.AnimationDuration)
                 .SetEase(m_Config.FillCurve)
-                .OnComplete(UpdateText);
+                .OnComplete(() => UpdateText(targetValue));
 
             m_ColorTween = m_FillImage.DOColor(targetColor, m_Config.AnimationDuration)
                 .SetEase(Ease.Linear);
-        }
 
-        private Color EvaluateGradient(float normalizedValue)
-        {
-            return Color.Lerp(m_Config.LowValueColor, m_Config.HighValueColor, normalizedValue);
-        }
+            return;
 
-        private void UpdateText()
-        {
-            int displayValue = Mathf.RoundToInt(m_CurrentValue);
-            int displayMax = Mathf.RoundToInt(m_Config.MaxValue);
-            m_ValueText.text = $"{displayValue} / {displayMax}";
+            void UpdateText(float value)
+            {
+                m_ValueText.text = $"{Mathf.RoundToInt(value)} / {Mathf.RoundToInt(m_Config.MaxValue)}";
+            }
         }
 
         private void KillTweens()

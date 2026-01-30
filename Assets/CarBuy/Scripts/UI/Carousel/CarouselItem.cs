@@ -66,13 +66,8 @@ namespace CarBuy.UI
                 m_Transform.localScale = Vector3.one * 1.1f;
             else
                 m_Transform.localScale = Vector3.one * .85f;
-            
-            SetBackgroundColor(backgroundColor);
-        }
 
-        private void SetBackgroundColor(Color color)
-        {
-            m_BackgroundImage.color = color;
+            m_BackgroundImage.color = backgroundColor;
         }
     }
 

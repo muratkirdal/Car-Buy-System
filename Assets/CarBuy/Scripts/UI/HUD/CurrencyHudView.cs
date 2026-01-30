@@ -14,7 +14,7 @@ namespace CarBuy.UI
 
         private void OnDestroy()
         {
-            UnsubscribeFromService();
+            m_CurrencyService.BalanceChanged -= OnBalanceChanged;
         }
 
         public void Initialize(ICurrencyService currencyService)
@@ -33,11 +33,6 @@ namespace CarBuy.UI
         private void SetBalance(int balance)
         {
             m_BalanceText.text = string.Format(StringConst.CurrencyFormat, balance);
-        }
-
-        private void UnsubscribeFromService()
-        {
-            m_CurrencyService.BalanceChanged -= OnBalanceChanged;
         }
     }
 }

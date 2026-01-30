@@ -27,7 +27,8 @@ namespace CarBuy.UI
         private void Awake()
         {
             m_RectTransform = GetComponent<RectTransform>();
-            CacheScaleVectors();
+            m_SelectedScaleVector = new Vector3(m_Config.SelectedScale, m_Config.SelectedScale, m_Config.SelectedScale);
+            m_NormalScaleVector = new Vector3(m_Config.NormalScale, m_Config.NormalScale, m_Config.NormalScale);
         }
 
         private void OnEnable()
@@ -52,12 +53,6 @@ namespace CarBuy.UI
         {
             UpdateSelectedIndicator(selected);
             UpdateScale(selected);
-        }
-
-        private void CacheScaleVectors()
-        {
-            m_SelectedScaleVector = new Vector3(m_Config.SelectedScale, m_Config.SelectedScale, m_Config.SelectedScale);
-            m_NormalScaleVector = new Vector3(m_Config.NormalScale, m_Config.NormalScale, m_Config.NormalScale);
         }
 
         private void HandleButtonClick()

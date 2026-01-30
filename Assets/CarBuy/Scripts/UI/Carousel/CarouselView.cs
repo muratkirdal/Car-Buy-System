@@ -20,7 +20,6 @@ namespace CarBuy.UI
         private List<VehicleData> m_Vehicles;
         private List<CarouselItem> m_CarouselItems;
         private HashSet<string> m_OwnedVehicleIds;
-        private VehicleData m_CurrentVehicle;
         private Tween m_ContainerTween;
         private int m_CurrentIndex;
         private float m_ItemWidth;
@@ -37,11 +36,6 @@ namespace CarBuy.UI
         private void OnDisable()
         {
             UnwireButtonEvents();
-            KillAnimation();
-        }
-
-        private void OnDestroy()
-        {
             UnwireItemEvents();
             KillAnimation();
         }
@@ -50,7 +44,7 @@ namespace CarBuy.UI
         {
             foreach (CarouselItem item in m_CarouselItems)
             {
-                item.ItemClicked -= OnItemClicked;
+                item.ItemClicked -= SelectIndex;
             }
         }
 
@@ -69,10 +63,12 @@ namespace CarBuy.UI
             CacheLayoutValues();
 
             m_CurrentIndex = 0;
-            m_CurrentVehicle = m_Vehicles[m_CurrentIndex];
 
             UpdateItemVisualStates();
-            SnapContainerToIndex(m_CurrentIndex);
+
+            Vector2 position = m_Container.anchoredPosition;
+            position.x = CalculateContainerTargetX(m_CurrentIndex);
+            m_Container.anchoredPosition = position;
         }
 
         public void SelectIndex(int index)
@@ -82,14 +78,13 @@ namespace CarBuy.UI
             if (clampedIndex == m_CurrentIndex) return;
 
             m_CurrentIndex = clampedIndex;
-            m_CurrentVehicle = m_Vehicles[clampedIndex];
 
             UpdateItemVisualStates();
 
             KillAnimation();
             AnimateToIndex(clampedIndex);
 
-            VehicleSelected?.Invoke(clampedIndex, m_CurrentVehicle);
+            VehicleSelected?.Invoke(clampedIndex, m_Vehicles[clampedIndex]);
         }
 
         public void MarkItemAsOwned(string vehicleId)
@@ -140,10 +135,9 @@ namespace CarBuy.UI
 
         private float CalculateItemWidth()
         {
-            float containerWidth = m_Container.rect.width;
             int visibleItems = m_Config.VisibleItems;
             float totalSpacing = (visibleItems - 1) * m_Spacing;
-            float availableWidth = containerWidth - totalSpacing;
+            float availableWidth = m_Container.rect.width - totalSpacing;
 
             return availableWidth / visibleItems;
         }
@@ -167,19 +161,11 @@ namespace CarBuy.UI
             return centerSlotOffset - selectedIndex * m_TotalItemWidth;
         }
 
-        private void SnapContainerToIndex(int selectedIndex)
-        {
-            Vector2 position = m_Container.anchoredPosition;
-            position.x = CalculateContainerTargetX(selectedIndex);
-            m_Container.anchoredPosition = position;
-        }
-
         private void AnimateToIndex(int targetIndex)
         {
             float targetX = CalculateContainerTargetX(targetIndex);
-            Vector2 targetPos = new Vector2(targetX, m_Container.anchoredPosition.y);
 
-            m_ContainerTween = m_Container.DOAnchorPos(targetPos, m_Config.TransitionDuration)
+            m_ContainerTween = m_Container.DOAnchorPos(new Vector2(targetX, m_Container.anchoredPosition.y), m_Config.TransitionDuration)
                 .SetEase(m_Config.TransitionCurve);
         }
 
@@ -194,14 +180,9 @@ namespace CarBuy.UI
             CarouselItem item = Instantiate(m_ItemPrefab, m_Container);
             item.Initialize(vehicleData, index);
 
-            item.ItemClicked += OnItemClicked;
+            item.ItemClicked += SelectIndex;
 
             return item;
-        }
-
-        private void OnItemClicked(int index)
-        {
-            SelectIndex(index);
         }
 
         private void UpdateItemVisualStates()
@@ -222,7 +203,6 @@ namespace CarBuy.UI
         {
             m_ContainerTween?.Kill();
         }
-
-        public delegate void SelectedVehicleHandler(int index, VehicleData vehicle);
     }
+    public delegate void SelectedVehicleHandler(int index, VehicleData vehicle);
 }
