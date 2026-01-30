@@ -42,7 +42,16 @@ namespace CarBuy.UI.Carousel
 
         private void OnDestroy()
         {
+            UnwireItemEvents();
             KillAnimation();
+        }
+
+        private void UnwireItemEvents()
+        {
+            foreach (CarouselItem item in m_CarouselItems)
+            {
+                item.ItemClicked -= OnItemClicked;
+            }
         }
 
         public void Initialize(IReadOnlyList<VehicleData> vehicles)
@@ -51,9 +60,9 @@ namespace CarBuy.UI.Carousel
             m_CarouselItems = new List<CarouselItem>();
             m_OwnedVehicleIds = new HashSet<string>();
 
-            foreach (var vehicle in m_Vehicles)
+            for (int i = 0; i < m_Vehicles.Count; i++)
             {
-                CarouselItem item = SpawnCarouselItem(vehicle);
+                CarouselItem item = SpawnCarouselItem(m_Vehicles[i], i);
                 m_CarouselItems.Add(item);
             }
 
@@ -116,9 +125,32 @@ namespace CarBuy.UI.Carousel
         private void CacheLayoutValues()
         {
             var layoutGroup = m_Container.GetComponent<HorizontalLayoutGroup>();
-            m_ItemWidth = m_CarouselItems[0].GetComponent<RectTransform>().sizeDelta.x;
             m_Spacing = layoutGroup.spacing;
+            m_ItemWidth = CalculateItemWidth();
             m_TotalItemWidth = m_ItemWidth + m_Spacing;
+
+            ApplyItemWidth();
+        }
+
+        private float CalculateItemWidth()
+        {
+            float containerWidth = m_Container.rect.width;
+            int visibleItems = m_Config.VisibleItems;
+            float totalSpacing = (visibleItems - 1) * m_Spacing;
+            float availableWidth = containerWidth - totalSpacing;
+
+            return availableWidth / visibleItems;
+        }
+
+        private void ApplyItemWidth()
+        {
+            foreach (CarouselItem item in m_CarouselItems)
+            {
+                RectTransform itemRect = item.GetComponent<RectTransform>();
+                Vector2 sizeDelta = itemRect.sizeDelta;
+                sizeDelta.x = m_ItemWidth;
+                itemRect.sizeDelta = sizeDelta;
+            }
         }
 
         private float CalculateContainerTargetX(int selectedIndex)
@@ -151,11 +183,19 @@ namespace CarBuy.UI.Carousel
             return (index % count + count) % count;
         }
 
-        private CarouselItem SpawnCarouselItem(VehicleData vehicleData)
+        private CarouselItem SpawnCarouselItem(VehicleData vehicleData, int index)
         {
             CarouselItem item = Instantiate(m_ItemPrefab, m_Container);
-            item.Initialize(vehicleData);
+            item.Initialize(vehicleData, index);
+
+            item.ItemClicked += OnItemClicked;
+
             return item;
+        }
+
+        private void OnItemClicked(int index)
+        {
+            SelectIndex(index);
         }
 
         private void UpdateItemVisualStates()
