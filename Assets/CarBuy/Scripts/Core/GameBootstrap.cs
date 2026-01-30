@@ -6,12 +6,12 @@ namespace CarBuy.Core
     public class GameBootstrap : MonoBehaviour
     {
         [Header("Controllers")]
-        [SerializeField] private ShopController m_ShopController;
+        [SerializeField] private ShopMediator m_ShopMediator;
 
         private void Start()
         {
-            m_ShopController.Initialize();
-            m_ShopController.OpenShop();
+            m_ShopMediator.Initialize();
+            m_ShopMediator.OpenShop();
         }
     }
 }

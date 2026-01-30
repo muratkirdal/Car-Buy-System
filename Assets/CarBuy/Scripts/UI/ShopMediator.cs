@@ -11,7 +11,7 @@ using CarBuy.Vehicle;
 
 namespace CarBuy.UI
 {
-    public class ShopController : MonoBehaviour
+    public class ShopMediator : MonoBehaviour
     {
         [Header("Data")]
         [SerializeField] private VehicleLibrary m_VehicleLibrary;
