@@ -544,7 +544,7 @@ GameObject:
   - component: {fileID: 6422539177012871994}
   - component: {fileID: 7864011606078128903}
   m_Layer: 0
-  m_Name: Vehicle_Mazda
+  m_Name: Vehicle_Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
