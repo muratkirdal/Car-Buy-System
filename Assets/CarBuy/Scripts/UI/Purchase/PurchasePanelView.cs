@@ -9,7 +9,6 @@ namespace CarBuy.UI
     {
         private const string k_PurchaseButtonText = "Purchase";
         private const string k_OwnedButtonText = "Owned";
-        private const string k_StrikethroughFormat = "<s>{0}</s>";
 
         [Header("Config")]
         [SerializeField] private PurchasePanelConfig m_Config;
@@ -17,8 +16,6 @@ namespace CarBuy.UI
         [Header("Display")]
         [SerializeField] private TextMeshProUGUI m_VehicleNameText;
         [SerializeField] private TextMeshProUGUI m_PriceText;
-        [SerializeField] private TextMeshProUGUI m_OriginalPriceText;
-        [SerializeField] private GameObject m_SaleIndicator;
 
         [Header("Buttons")]
         [SerializeField] private TextMeshProUGUI m_PurchaseButtonText;
@@ -69,23 +66,7 @@ namespace CarBuy.UI
 
         private void UpdatePriceDisplay(VehicleData vehicle)
         {
-            bool isOnSale = vehicle.SalePrice > 0;
-            int displayPrice = isOnSale ? vehicle.SalePrice : vehicle.Price;
-
-            m_PriceText.text = string.Format(StringConst.CurrencyFormat, displayPrice);
-            m_SaleIndicator.SetActive(isOnSale);
-
-            if (isOnSale)
-            {
-                string originalPrice = string.Format(StringConst.CurrencyFormat, vehicle.Price);
-                m_OriginalPriceText.text = string.Format(k_StrikethroughFormat, originalPrice);
-                m_OriginalPriceText.gameObject.SetActive(true);
-            }
-            else
-            {
-                // Show Sellbutton hide other all
-                m_OriginalPriceText.gameObject.SetActive(false);
-            }
+            m_PriceText.text = string.Format(StringConst.CurrencyFormat, vehicle.Price);
         }
 
         private void UpdateOwnedState(bool isOwned)
