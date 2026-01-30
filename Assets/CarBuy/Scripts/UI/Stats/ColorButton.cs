@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 using CarBuy.Data;
 
 namespace CarBuy.UI.Stats
@@ -18,10 +17,12 @@ namespace CarBuy.UI.Stats
         private RectTransform m_RectTransform;
         private Vector3 m_SelectedScaleVector;
         private Vector3 m_NormalScaleVector;
+        private int m_Index;
+        private VehicleColorOption m_ColorOption;
 
-        public UnityEvent<ColorButton> Clicked = new();
+        public event ClickedHandler Clicked;
 
-        public VehicleColorOption ColorOption { get; private set; }
+        public VehicleColorOption ColorOption => m_ColorOption;
 
         private void Awake()
         {
@@ -30,10 +31,15 @@ namespace CarBuy.UI.Stats
             WireButtonClick();
         }
 
-        public void Initialize(VehicleColorOption colorOption)
+        private void OnDestroy()
         {
-            ColorOption = colorOption;
-            WireButtonClick();
+            m_Button.onClick.RemoveListener(HandleButtonClick);
+        }
+
+        public void Initialize(int index, VehicleColorOption colorOption)
+        {
+            m_Index = index;
+            m_ColorOption = colorOption;
             UpdateColorSwatch(colorOption.Color);
             SetSelected(false);
         }
@@ -57,7 +63,7 @@ namespace CarBuy.UI.Stats
 
         private void HandleButtonClick()
         {
-            Clicked.Invoke(this);
+            Clicked?.Invoke(m_Index, m_ColorOption);
         }
 
         private void UpdateColorSwatch(Color color)
@@ -75,9 +81,6 @@ namespace CarBuy.UI.Stats
             m_RectTransform.localScale = selected ? m_SelectedScaleVector : m_NormalScaleVector;
         }
 
-        private void OnDestroy()
-        {
-            m_Button.onClick.RemoveListener(HandleButtonClick);
-        }
+        public delegate void ClickedHandler(int index, VehicleColorOption colorOption);
     }
 }

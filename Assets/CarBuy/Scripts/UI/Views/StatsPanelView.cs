@@ -27,7 +27,6 @@ namespace CarBuy.UI.Views
 
         public event ColorSelectedHandler ColorSelected;
 
-
         private void OnDestroy()
         {
             ClearColorButtons();
@@ -62,7 +61,7 @@ namespace CarBuy.UI.Views
         {
             foreach (var button in m_SpawnedColorButtons)
             {
-                button.Clicked.RemoveListener(HandleColorButtonClicked);
+                button.Clicked -= HandleColorButtonClicked;
                 Destroy(button.gameObject);
             }
 
@@ -71,24 +70,20 @@ namespace CarBuy.UI.Views
 
         private void SpawnColorButtons(VehicleColorOption[] colorOptions)
         {
-            foreach (var option in colorOptions)
+            for (int i = 0; i < colorOptions.Length; i++)
             {
                 ColorButton button = Instantiate(m_ColorButtonPrefab, m_ColorContainer);
-                button.Initialize(option);
-                button.Clicked.AddListener(HandleColorButtonClicked);
+                button.Initialize(i, colorOptions[i]);
+                button.Clicked += HandleColorButtonClicked;
                 m_SpawnedColorButtons.Add(button);
             }
         }
 
-        private void HandleColorButtonClicked(ColorButton clickedButton)
+        private void HandleColorButtonClicked(int index, VehicleColorOption colorOption)
         {
-            int index = m_SpawnedColorButtons.IndexOf(clickedButton);
-            if (index >= 0)
-            {
-                SelectColor(index);
-            }
+            SelectColor(index);
         }
-    }
 
-    public delegate void ColorSelectedHandler(int colorIndex, VehicleColorOption colorOption);
+        public delegate void ColorSelectedHandler(int colorIndex, VehicleColorOption colorOption);
+    }
 }
