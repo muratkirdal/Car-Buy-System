@@ -1,5 +1,4 @@
 using UnityEngine;
-using CarBuy.UI;
 
 namespace CarBuy.Core
 {
