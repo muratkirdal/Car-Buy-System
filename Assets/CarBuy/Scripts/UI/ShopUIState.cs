@@ -10,6 +10,6 @@ namespace CarBuy.UI
         public int SelectedColorIndex;
         public bool IsPopupOpen;
         public bool IsProcessingPurchase;
-        public VehicleData CurrentVehicle { get; set; }
+        public VehicleData CurrentVehicle;
     }
 }

@@ -42,11 +42,6 @@ namespace CarBuy.UI.Purchase
             m_PurchaseButton.onClick.RemoveListener(HandlePurchaseClicked);
         }
 
-        private void HandlePurchaseClicked()
-        {
-            PurchaseClicked?.Invoke();
-        }
-
         public void DisplayVehicle(VehicleData vehicle, int playerBalance, bool isOwned)
         {
             m_CurrentVehicle = vehicle;
@@ -120,7 +115,12 @@ namespace CarBuy.UI.Purchase
             m_PurchaseButton.interactable = enabled;
             m_PriceText.color = enabled ? m_Config.AffordableColor : m_Config.UnaffordableColor;
         }
-    }
 
-    public delegate void PurchaseClickedHandler();
+        private void HandlePurchaseClicked()
+        {
+            PurchaseClicked?.Invoke();
+        }
+
+        public delegate void PurchaseClickedHandler();
+    }
 }

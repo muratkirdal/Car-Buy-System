@@ -16,6 +16,16 @@ namespace CarBuy.Vehicle
         private Color m_CurrentColor = Color.white;
         private int m_ColorPropertyId;
 
+        private void OnDisable()
+        {
+            KillFadeTween();
+        }
+
+        private void OnDestroy()
+        {
+            KillFadeTween();
+        }
+
         public void SetColor(Color color)
         {
             EnsurePropertyBlockInitialized();
@@ -71,16 +81,6 @@ namespace CarBuy.Vehicle
                 m_PropertyBlock = new MaterialPropertyBlock();
                 m_ColorPropertyId = Shader.PropertyToID(m_ColorPropertyName);
             }
-        }
-
-        private void OnDisable()
-        {
-            KillFadeTween();
-        }
-
-        private void OnDestroy()
-        {
-            KillFadeTween();
         }
     }
 }
