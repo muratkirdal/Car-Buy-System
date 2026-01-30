@@ -18,7 +18,6 @@ namespace CarBuy.UI.Purchase
         [Header("Display")]
         [SerializeField] private TextMeshProUGUI m_VehicleNameText;
         [SerializeField] private TextMeshProUGUI m_PriceText;
-        [SerializeField] private TextMeshProUGUI m_BalanceText;
         [SerializeField] private TextMeshProUGUI m_OriginalPriceText;
         [SerializeField] private GameObject m_SaleIndicator;
 
@@ -29,6 +28,7 @@ namespace CarBuy.UI.Purchase
 
         private VehicleData m_CurrentVehicle;
         private bool m_CurrentIsOwned;
+        private int m_PlayerBalance;
 
         public event PurchaseClickedHandler PurchaseClicked;
 
@@ -46,12 +46,12 @@ namespace CarBuy.UI.Purchase
         {
             m_CurrentVehicle = vehicle;
             m_CurrentIsOwned = isOwned;
+            m_PlayerBalance = playerBalance;
 
             UpdateVehicleName(vehicle.DisplayName);
-            UpdateBalance(playerBalance);
             UpdatePriceDisplay(vehicle);
             UpdateOwnedState(isOwned);
-            UpdatePurchaseButton(vehicle, playerBalance, isOwned);
+            UpdatePurchaseButton();
         }
 
         private void UpdateVehicleName(string name)
@@ -59,15 +59,10 @@ namespace CarBuy.UI.Purchase
             m_VehicleNameText.text = name;
         }
 
-        public void SetBalance(int balance)
+        public void UpdatePlayerBalance(int balance)
         {
-            m_BalanceText.text = string.Format(k_CurrencyFormat, balance);
-            UpdatePurchaseButton(m_CurrentVehicle, balance, m_CurrentIsOwned);
-        }
-
-        private void UpdateBalance(int balance)
-        {
-            m_BalanceText.text = string.Format(k_CurrencyFormat, balance);
+            m_PlayerBalance = balance;
+            UpdatePurchaseButton();
         }
 
         private void UpdatePriceDisplay(VehicleData vehicle)
@@ -95,18 +90,18 @@ namespace CarBuy.UI.Purchase
             m_OwnedBadge.SetActive(isOwned);
         }
 
-        private void UpdatePurchaseButton(VehicleData vehicle, int playerBalance, bool isOwned)
+        private void UpdatePurchaseButton()
         {
-            m_PurchaseButtonText.text = isOwned ? k_OwnedButtonText : k_PurchaseButtonText;
+            m_PurchaseButtonText.text = m_CurrentIsOwned ? k_OwnedButtonText : k_PurchaseButtonText;
 
-            if (isOwned)
+            if (m_CurrentIsOwned)
             {
                 m_PurchaseButton.interactable = false;
                 return;
             }
 
-            int effectivePrice = vehicle.SalePrice > 0 ? vehicle.SalePrice : vehicle.Price;
-            bool canAfford = playerBalance >= effectivePrice;
+            int effectivePrice = m_CurrentVehicle.SalePrice > 0 ? m_CurrentVehicle.SalePrice : m_CurrentVehicle.Price;
+            bool canAfford = m_PlayerBalance >= effectivePrice;
             SetPurchaseEnabled(canAfford);
         }
 

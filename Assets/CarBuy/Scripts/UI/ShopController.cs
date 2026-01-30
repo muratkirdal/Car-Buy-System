@@ -4,6 +4,7 @@ using CarBuy.Data;
 using CarBuy.Services;
 using CarBuy.UI.Carousel;
 using CarBuy.UI.Common;
+using CarBuy.UI.HUD;
 using CarBuy.UI.Purchase;
 using CarBuy.UI.Views;
 using CarBuy.Vehicle;
@@ -19,6 +20,7 @@ namespace CarBuy.UI
         [Header("UI Views")]
         [SerializeField] private ConfirmationPopup m_ConfirmationPopup;
         [SerializeField] private CarouselView m_CarouselView;
+        [SerializeField] private CurrencyHudView m_CurrencyHudView;
         [SerializeField] private PurchasePanelView m_PurchaseView;
         [SerializeField] private StatsPanelView m_StatsView;
 
@@ -62,6 +64,7 @@ namespace CarBuy.UI
             m_State.CurrentVehicle = vehicles[0];
 
             m_CarouselView.Initialize(vehicles);
+            m_CurrencyHudView.Initialize(m_CurrencyService);
 
             m_CarouselView.VehicleSelected += HandleVehicleSelected;
             m_StatsView.ColorSelected += HandleColorSelected;
@@ -92,7 +95,7 @@ namespace CarBuy.UI
 
         private void HandleBalanceChanged(int newBalance)
         {
-            m_PurchaseView.SetBalance(newBalance);
+            m_PurchaseView.UpdatePlayerBalance(newBalance);
         }
 
         private void HandlePurchaseRequest()
