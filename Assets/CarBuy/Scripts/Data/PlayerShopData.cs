@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CarBuy.Data
 {
@@ -34,7 +33,15 @@ namespace CarBuy.Data
 
         public bool OwnsVehicle(string vehicleId)
         {
-            return m_OwnedVehicles?.Any(v => v.VehicleId == vehicleId) ?? false;
+            foreach (OwnedVehicle vehicle in m_OwnedVehicles)
+            {
+                if (vehicle.VehicleId == vehicleId)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
