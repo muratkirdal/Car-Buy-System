@@ -31,6 +31,18 @@ namespace CarBuy.Data
             m_OwnedVehicles.Add(vehicle);
         }
 
+        public void RemoveVehicle(string vehicleId)
+        {
+            for (int i = 0; i < m_OwnedVehicles.Count; i++)
+            {
+                if (m_OwnedVehicles[i].VehicleId == vehicleId)
+                {
+                    m_OwnedVehicles.RemoveAt(i);
+                    return;
+                }
+            }
+        }
+
         public bool OwnsVehicle(string vehicleId)
         {
             foreach (OwnedVehicle vehicle in m_OwnedVehicles)
