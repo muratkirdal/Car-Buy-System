@@ -61,13 +61,6 @@ namespace CarBuy.UI
             m_BackgroundImage.color = m_Config.EmptyColor;
         }
 
-        private void ApplyFillImmediate(float normalizedValue)
-        {
-            m_FillImage.fillAmount = normalizedValue;
-            m_FillImage.color = EvaluateGradient(normalizedValue);
-            UpdateText();
-        }
-
         private void AnimateFill(float targetNormalized)
         {
             UpdateText();
