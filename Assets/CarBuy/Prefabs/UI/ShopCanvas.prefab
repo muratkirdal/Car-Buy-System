@@ -214,30 +214,6 @@ MonoBehaviour:
     type: 3}
   m_LeftButton: {fileID: 8472356764366409929}
   m_RightButton: {fileID: 3922489666860568825}
-  m_TransitionCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &546336538172347657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1248,11 +1224,10 @@ MonoBehaviour:
   m_BalanceText: {fileID: 6674041379709267923}
   m_OriginalPriceText: {fileID: 7975702478143071827}
   m_SaleIndicator: {fileID: 7559351200523684308}
-  m_PurchaseButton: {fileID: 3004688598495681892}
   m_PurchaseButtonText: {fileID: 6806534680843954061}
+  m_PurchaseButton: {fileID: 3004688598495681892}
   m_OwnedBadge: {fileID: 546336538172347657}
-  m_AffordableColor: {r: 0, g: 1, b: 0, a: 1}
-  m_UnaffordableColor: {r: 1, g: 0, b: 0, a: 1}
+  m_Config: {fileID: 11400000, guid: f895f5c0ccdf46d097c6d234509890ea, type: 2}
 --- !u!1 &3890004692069693616
 GameObject:
   m_ObjectHideFlags: 0
@@ -1308,7 +1283,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de94342ba64af4c34ba6d54b9af16afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Config: {fileID: 11400000, guid: c03361bc41f304ad0833945c68c0527f, type: 2}
   m_VehicleNameText: {fileID: 6180568484898219098}
   m_ClassIcon: {fileID: 6151636359403060180}
   m_ClassIconLibrary: {fileID: 11400000, guid: d2abd50ed274b4118b0969d1639c4cb9, type: 2}
