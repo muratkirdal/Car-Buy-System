@@ -1,10 +1,10 @@
 namespace CarBuy.Data
 {
-    public class PurchaseTransaction
+    public class VehicleTransaction
     {
         private readonly string m_VehicleId;
 
-        public PurchaseTransaction(string vehicleId)
+        public VehicleTransaction(string vehicleId)
         {
             m_VehicleId = vehicleId;
         }
