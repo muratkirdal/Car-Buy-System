@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_VisibleItems: 5
   m_TransitionDuration: 0.3
-  m_SpacingRatio: 0.2
   m_TransitionCurve:
     serializedVersion: 2
     m_Curve:
