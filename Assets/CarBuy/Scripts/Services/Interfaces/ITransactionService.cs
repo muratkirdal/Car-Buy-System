@@ -5,8 +5,10 @@ namespace CarBuy.Services
     public interface ITransactionService
     {
         void PurchaseVehicle(string vehicleId, int colorIndex);
-        event PurchaseCompletedHandler PurchaseCompleted;
+        void SellVehicle(string vehicleId);
+        event TransactionCompletedHandler PurchaseCompleted;
+        event TransactionCompletedHandler SellCompleted;
     }
 
-    public delegate void PurchaseCompletedHandler(PurchaseTransaction transaction);
+    public delegate void TransactionCompletedHandler(VehicleTransaction transaction);
 }
