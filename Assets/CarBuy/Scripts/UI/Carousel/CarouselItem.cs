@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -11,6 +12,7 @@ namespace CarBuy.UI
         [SerializeField] private CarouselItemConfig m_Config;
 
         [Header("UI References")]
+        [SerializeField] private RectTransform m_Transform;
         [SerializeField] private Image m_IconImage;
         [SerializeField] private Image m_BackgroundImage;
         [SerializeField] private Button m_Button;
@@ -60,6 +62,11 @@ namespace CarBuy.UI
                                     isOwned ? m_Config.OwnedColor :
                                     m_Config.DefaultColor;
 
+            if (isSelected)
+                m_Transform.localScale = Vector3.one * 1.1f;
+            else
+                m_Transform.localScale = Vector3.one * .85f;
+            
             SetBackgroundColor(backgroundColor);
         }
 
