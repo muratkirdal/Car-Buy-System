@@ -3,9 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using CarBuy.Data;
-using CarBuy.UI.Stats;
 
-namespace CarBuy.UI.Views
+namespace CarBuy.UI
 {
     public class StatsPanelView : MonoBehaviour
     {

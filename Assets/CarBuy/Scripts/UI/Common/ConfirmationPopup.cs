@@ -5,7 +5,7 @@ using TMPro;
 using DG.Tweening;
 using CarBuy.Data;
 
-namespace CarBuy.UI.Common
+namespace CarBuy.UI
 {
     public class ConfirmationPopup : MonoBehaviour
     {

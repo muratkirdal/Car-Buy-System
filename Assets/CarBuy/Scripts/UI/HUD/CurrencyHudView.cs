@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using CarBuy.Services;
 
-namespace CarBuy.UI.HUD
+namespace CarBuy.UI
 {
     public class CurrencyHudView : MonoBehaviour
     {

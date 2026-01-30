@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using CarBuy.Data;
 
-namespace CarBuy.UI.Stats
+namespace CarBuy.UI
 {
     public class ColorButton : MonoBehaviour
     {

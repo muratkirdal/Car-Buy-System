@@ -4,7 +4,7 @@ using TMPro;
 using DG.Tweening;
 using CarBuy.Data;
 
-namespace CarBuy.UI.Stats
+namespace CarBuy.UI
 {
     public class StatSlider : MonoBehaviour
     {

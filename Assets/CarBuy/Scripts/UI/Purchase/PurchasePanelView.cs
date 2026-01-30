@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using CarBuy.Data;
 
-namespace CarBuy.UI.Purchase
+namespace CarBuy.UI
 {
     public class PurchasePanelView : MonoBehaviour
     {
