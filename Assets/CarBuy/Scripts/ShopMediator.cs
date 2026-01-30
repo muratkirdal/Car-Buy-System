@@ -2,14 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using CarBuy.Data;
 using CarBuy.Services;
-using CarBuy.UI.Carousel;
-using CarBuy.UI.Common;
-using CarBuy.UI.HUD;
-using CarBuy.UI.Purchase;
-using CarBuy.UI.Views;
+using CarBuy.UI;
 using CarBuy.Vehicle;
 
-namespace CarBuy.UI
+namespace CarBuy
 {
     public class ShopMediator : MonoBehaviour
     {
@@ -51,7 +47,6 @@ namespace CarBuy.UI
 
             m_State = new ShopUIState
             {
-                CurrentVehicleIndex = 0,
                 SelectedColorIndex = 0,
                 CurrentVehicle = null
             };
@@ -73,7 +68,6 @@ namespace CarBuy.UI
         private void HandleVehicleSelected(int index, VehicleData vehicle)
         {
             m_State.CurrentVehicle = vehicle;
-            m_State.CurrentVehicleIndex = index;
 
             bool isOwned = m_VehicleService.IsVehicleOwned(vehicle.Id);
 
