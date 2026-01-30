@@ -16,7 +16,7 @@ MonoBehaviour:
   m_DisplayName: RX-7 FD
   m_Class: 0
   m_Price: 55000
-  m_SalePrice: 0
+  m_SalePrice: 33000
   m_Stats:
     m_Speed: 90
     m_Acceleration: 88

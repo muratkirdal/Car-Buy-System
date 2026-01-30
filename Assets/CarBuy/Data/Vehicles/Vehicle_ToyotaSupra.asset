@@ -11,12 +11,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91029813580ec4e42861e597ccd06e1b, type: 3}
   m_Name: Vehicle_ToyotaSupra
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   m_Id: supra_mk4
   m_DisplayName: Supra MK4
   m_Class: 2
   m_Price: 50000
-  m_SalePrice: 0
+  m_SalePrice: 30000
   m_Stats:
     m_Speed: 92
     m_Acceleration: 87
@@ -28,5 +28,6 @@ MonoBehaviour:
   - m_Color: {r: 0.8, g: 0, b: 0, a: 1}
   - m_Color: {r: 0, g: 0.3, b: 0.8, a: 1}
   m_ModelInfo:
-    m_Prefab: {fileID: 7864011606078128903, guid: 78c9c2db9fe154015bc8c774398a1d7e, type: 3}
+    m_Prefab: {fileID: 7864011606078128903, guid: 78c9c2db9fe154015bc8c774398a1d7e,
+      type: 3}
     m_Icon: {fileID: 21300000, guid: 10b535f21b8c24356af0962c976685ef, type: 3}

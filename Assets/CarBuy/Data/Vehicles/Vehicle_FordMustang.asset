@@ -16,7 +16,7 @@ MonoBehaviour:
   m_DisplayName: Mustang GT
   m_Class: 1
   m_Price: 35000
-  m_SalePrice: 0
+  m_SalePrice: 21000
   m_Stats:
     m_Speed: 82
     m_Acceleration: 90

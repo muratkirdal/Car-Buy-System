@@ -11,12 +11,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91029813580ec4e42861e597ccd06e1b, type: 3}
   m_Name: Vehicle_ChevyCamaro
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   m_Id: camaro_ss
   m_DisplayName: Camaro SS
   m_Class: 1
   m_Price: 38000
-  m_SalePrice: 32000
+  m_SalePrice: 23000
   m_Stats:
     m_Speed: 85
     m_Acceleration: 92
@@ -28,5 +28,6 @@ MonoBehaviour:
   - m_Color: {r: 0, g: 0.5, b: 0, a: 1}
   - m_Color: {r: 0.6, g: 0.6, b: 0.6, a: 1}
   m_ModelInfo:
-    m_Prefab: {fileID: 7864011606078128903, guid: fb0abe69012224920b35f4c3f1cab531, type: 3}
+    m_Prefab: {fileID: 7864011606078128903, guid: fb0abe69012224920b35f4c3f1cab531,
+      type: 3}
     m_Icon: {fileID: 21300000, guid: 1dd28e2e0f2894fc1bed8c8e17b7d183, type: 3}

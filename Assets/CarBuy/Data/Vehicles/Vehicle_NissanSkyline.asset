@@ -16,7 +16,7 @@ MonoBehaviour:
   m_DisplayName: Skyline GT-R R34
   m_Class: 2
   m_Price: 45000
-  m_SalePrice: 0
+  m_SalePrice: 27000
   m_Stats:
     m_Speed: 88
     m_Acceleration: 85
